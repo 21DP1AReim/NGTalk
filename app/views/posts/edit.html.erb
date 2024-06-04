@@ -1,0 +1,29 @@
+<%= render partial: 'shared/navbar' %>
+<%= stylesheet_link_tag 'postStyle' %>
+<div class="container">
+<div class="makePostForm">
+  <div class="headline">Edit post</div>
+  <div class="standard-box">
+    <%= form_for @post, url: post_path(@post), method: :patch do |f| %>
+      <div class="two-columns">
+        <div class="col">
+          <div class="headline">Subject </div>
+          <%= f.text_area :title, class: "titleInput", maxlength: 50 %>
+        </div>
+
+        <div class="col">
+          <div class="headline">Category </div>
+          <%= f.text_area :category, class: "titleInput", maxlength: 30 %> <br>
+        </div>
+      </div>
+    
+      <div class="ctr">
+        <%= f.label :content %>
+        <%= f.text_area :content, class: "titleInput" %> <br>
+      </div>
+      
+      <%= f.submit "Update post", class: "btn btn-warning" %> <br>
+    <% end %>
+  </div>
+</div>
+</div>

@@ -1,0 +1,103 @@
+<%= render partial: 'shared/navbar' %>
+</div>
+</div>
+<%= stylesheet_link_tag 'postStyle' %>
+<table class="tablePosts">
+  <thead>
+    <tr>
+      <th>Title
+        <%= link_to '▼', sort_by: 'title_asc' %>
+        <%= link_to '▲', sort_by: 'title_sc' %>
+      </th>
+      <th>
+        <label for="category-filter">Category</label>
+        <%= select_tag 'category', options_for_select(['All', 'Gaming', 'News', 'Off-topic'], params[:category]), id: 'category-filter' %>
+      </th>
+      <th>Replies
+        <%= link_to '▼', sort_by: 'replies_desc'%>
+        <%= link_to '▲', sort_by: 'replies_asc'%>
+      </th>
+      <th style="padding-left:5px;">Activity
+        <%= link_to '▼', sort_by: 'activity_asc'%>
+        <%= link_to '▲', sort_by: 'activity_desc'%>
+      </th>
+    </tr>
+  </thead>
+  <tbody id="table-body">
+    <% @posts.each do |post| %>
+      <tr class="tableRow" style="border: 1px black solid;">
+        <td class="tableTitle">
+          <%= link_to post.title, post_path(post) %>
+        </td>
+        <td class="tableTitle">
+          <%= link_to post.category, post_path(post) %>
+        </td>
+        <td class="tableReplies" style="padding-right:10vw; padding-left:1vw;">
+          <% total_count = post.comments.count + post.comments.map { |c| c.replies.count }.sum %>
+          <%= link_to  "#{total_count}", post_path(post) %>
+        </td>
+        <td class="tableLastUpdated" style="padding-right:2vw; padding-left:1vw;">
+          <%= time_ago_in_words(post.updated_at) %>
+        </td>
+        <% if user_signed_in? %>
+          <% if current_user.role == 'admin'%>
+            <td>
+              <%= form_with(url: post_path(post), method: :delete, local: true) do |f| %>
+                <%= f.hidden_field :id, value: post.id %>
+                <%= f.submit "Delete", data: {confirm: "Are you sure?"} %>
+              <% end %>
+           </td>
+          <% end %>
+        <% end %>      
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+
+  <%= paginate @posts, inner_window: 1 %>
+
+          
+<%= link_to 'New post', make_post_page_path %>
+<script>
+            $(document).on('change', '#category-filter', function() {
+var category = $(this).val();
+
+$.ajax({
+  url: '/posts',
+  type: 'GET',
+  data: { category: category },
+  success: function(data) {
+    $('#table-body').html($(data).find('#table-body').html());
+    if ($('#table-body tr').length <= 17) {
+      $('.pagination').hide();
+    } else {
+      $('.pagination').show();
+    }
+  },
+  error: function() {
+    alert('Error filtering posts');
+  }
+});
+});
+
+$(document).on('click', '.sort-arrow', function(e) {
+  e.preventDefault();
+
+  var sort_by = $(this).attr('sort_by');
+
+  $.ajax({
+    url: '/posts',
+    type: 'GET',
+    data: { sort_by: sort_by },
+    success: function(data) {
+      $('.table-body').html($(data).find('.table-body').html());
+    },
+    error: function() {
+      alert('Error sorting posts');
+    }
+  });
+});
+
+</script>

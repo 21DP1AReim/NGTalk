@@ -1,0 +1,11 @@
+var commentsDiv = $('#comments');
+var newCommentHTML = '<%= j(render partial: "comment", collection: @comments) %>';
+
+
+commentsDiv.html('');
+commentsDiv.append(newCommentHTML);
+
+if ($('#comment-form')[0]) {
+  $('#comment-form')[0].reset();
+}
+$('.spinner').remove();

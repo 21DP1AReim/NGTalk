@@ -1,0 +1,23 @@
+<div class="reply<%= reply.reply_id.present? ? '-nested' : '' %>" id="reply-<%= reply.id %>">
+  <div class="replyContainer">
+    <div class="commenterContainer">
+        <div class="commenter"><strong><%= reply.commenter %></strong></div>
+            <%= form_with(url: comment_reply_path(reply.comment, reply), method: :delete, local: true) do |f| %>
+              <%= f.hidden_field :id, value: reply.id %>
+              <%= f.submit "Delete", data: {confirm: "Are you sure?"}, class: "delete-button" %>
+            <% end %>
+        </div>
+    <div class="commentBody"><%= reply.body %></div>
+    <div class="commentFooter"><%= reply.created_at.try(:strftime, "%Y-%m-%d %H:%M") %></div>
+
+    <% reply.replies.each do |nested_reply| %>
+      <%= render partial: 'replies/reply', locals: { reply: nested_reply } %>
+    <% end %>
+  </div>
+  <% if user_signed_in? %>
+    <div class="btnIg">
+      <%= link_to "Reply", new_comment_reply_reply_path(reply.comment, reply), remote: true, class: "linkStyling reply-button" %>
+    </div>
+  <% end %>
+  <div id="replies-form-container-<%= reply.id %>"></div>
+</div>

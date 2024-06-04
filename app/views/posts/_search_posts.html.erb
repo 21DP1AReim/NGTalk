@@ -1,0 +1,23 @@
+<% posts.each do |post| %>
+  <tr class="tableRow" style="border: 1px black solid;">
+    <td class="tableTitle">
+      <%= link_to post.title, post_path(post) %>
+    </td>
+    <td class="tableReplies">
+      <%= link_to post.comments.count, post_path(post) %>
+    </td>
+    <td class="tableLastUpdated">
+      <%= time_ago_in_words(post.updated_at) %>
+    </td>
+    <% if user_signed_in? %>
+    <% if current_user.role == 'admin'|| current_user.role == 'editor'%>
+      <td>
+        <%= form_with(url: post_path(post), method: :delete, local: true) do |f| %>
+          <%= f.hidden_field :id, value: post.id %>
+          <%= f.submit "Delete", data: {confirm: "Are you sure?"} %>
+        <% end %>
+      </td>
+    <% end %>
+  <% end %>
+  </tr>
+<% end %>

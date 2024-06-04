@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="makePostForm">
+    <%= form_for @article, url: article_path(@article), method: :patch do |f| %>
+      <div>
+        <%= f.label :title %> <br>
+        <%= f.text_field :title, class: "titleTxt", maxlength: 50 %> <br>
+      </div>
+      <div>
+        <%= f.label :text %> <br>
+        <%= f.text_area :text, class: "tinymce" %>
+        <%= tinymce %> <br>
+      </div>
+      <%= f.submit "Update Article", class: "btn btn-warning" %> <br>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<% articles.each do |article| %>
+  <tr class="tableRow" style="border: 1px black solid;">
+    <td class="tableTitle">
+      <%= link_to article.title, article_path(article) %>
+    </td>
+    <td class="tableReplies">
+      <%= link_to article.comments.count, article_path(article) %>
+    </td>
+    <td class="tableLastUpdated">
+      <%= time_ago_in_words(article.updated_at) %>
+    </td>
+    <% if user_signed_in? %>
+    <% if current_user.role == 'admin'|| current_user.role == 'editor'%>
+      <td>
+        <%= form_with(url: article_path(article), method: :delete, local: true) do |f| %>
+          <%= f.hidden_field :id, value: article.id %>
+          <%= f.submit "Delete", data: {confirm: "Are you sure?"} %>
+        <% end %>
+      </td>
+    <% end %>
+  <% end %>
+  </tr>
+<% end %>

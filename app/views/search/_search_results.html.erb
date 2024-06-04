@@ -1,0 +1,23 @@
+<% if @results.any? %>
+  <h2>Search Results:</h2>
+  <h3>Posts:</h3>
+  <ul>
+    <% @results.select { |result| result.is_a?(Post) }.each do |post| %>
+      <li>
+        <p> <%= link_to post.title, post_path(post) %></p>
+      </li>
+    <% end %>
+  </ul>
+
+  <h3>Articles:</h3>
+  <ul>
+    <% @results.select { |result| result.is_a?(Article) }.each do |article| %>
+      <li>
+        <p><%= link_to article.title, article_path(article) %></p>
+      </li>
+    <% end %>
+  </ul>
+
+<% else %>
+  <p>No results found.</p>
+<% end %>

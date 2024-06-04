@@ -1,0 +1,10 @@
+<%= render partial: 'shared/navbar' %>
+
+<div class='container'>
+  
+  <%= render partial: 'search/search_results', locals: { results: @results } %>
+</div>
+
+<script>
+  $('#search-input').val('');
+</script>

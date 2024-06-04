@@ -1,0 +1,3 @@
+var repliesContainer = $('#replies-container-<%= @comment.id %>');
+repliesContainer.find('#new_reply').remove();
+repliesContainer.prepend('<%= j(render partial: "replies/form", locals: { comment: @comment, reply: @reply }) %>');

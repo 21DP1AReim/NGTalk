@@ -1,0 +1,73 @@
+<%= render partial: 'shared/navbar' %>
+</div>
+</div>
+<%= stylesheet_link_tag 'postStyle' %>
+<table class="tablePosts">
+  <thead>
+    <tr>
+      <th>Title
+        <%= link_to '▼', sort_by: 'title_asc' %>
+        <%= link_to '▲', sort_by: 'title_sc' %>
+      </th>
+      <th>Replies
+        <%= link_to '▼', sort_by: 'replies_desc'%>
+        <%= link_to '▲', sort_by: 'replies_asc'%>
+      </th>
+      <th style="padding-left:5px;">Activity
+        <%= link_to '▼', sort_by: 'activity_asc'%>
+        <%= link_to '▲', sort_by: 'activity_desc'%>
+      </th>
+    </tr>
+  </thead>
+  <tbody id="table-body">
+    <% @article.each do |article| %>
+      <tr class="tableRow" style="border: 1px black solid;">
+        <td class="tableTitle">
+          <%= link_to article.title, article_path(article) %>
+        </td>
+        <td class="tableReplies" style="padding-right:10vw; padding-left:1vw;">
+          <% total_count = article.comments.count + article.comments.map { |c| c.replies.count }.sum %>
+          <%= link_to  "#{total_count}", article_path(article) %>
+        </td>
+        <td class="tableLastUpdated" style="padding-right:2vw; padding-left:1vw;">
+          <%= time_ago_in_words(article.updated_at) %>
+        </td>
+        <% if user_signed_in? %>
+          <% if current_user.role == 'admin'%>
+            <td>
+              <%= form_with(url: article_path(article), method: :delete, local: true) do |f| %>
+                <%= f.hidden_field :id, value: article.id %>
+                <%= f.submit "Delete", data: {confirm: "Are you sure?"} %>
+              <% end %>
+           </td>
+          <% end %>
+        <% end %>      
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= paginate @article, inner_window: 1 if @pagination %>
+
+<%= link_to 'New article', new_article_path %>
+<script>
+
+$(document).on('click', '.sort-arrow', function(e) {
+  e.preventDefault();
+
+  var sort_by = $(this).attr('sort_by');
+
+  $.ajax({
+    url: '/posts',
+    type: 'GET',
+    data: { sort_by: sort_by },
+    success: function(data) {
+      $('.table-body').html($(data).find('.table-body').html());
+    },
+    error: function() {
+      alert('Error sorting posts');
+    }
+  });
+});
+
+</script>

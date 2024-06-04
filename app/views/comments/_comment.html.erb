@@ -1,0 +1,54 @@
+      <div class="comment" id="comment-<%= comment.id %>">
+        <div class="commentContainer">
+          <div class="commenterContainer">
+              <div class="commenter"><strong><%= comment.commenter %></strong></div>
+              <%= form_with(url: comment_path(comment), method: :delete, local: true) do |f| %>
+                <%= f.hidden_field :id, value: comment.id %>
+                <%= f.submit "Delete", data: {confirm: "Are you sure?"}, class: "delete-button" %>
+              <% end %>
+          </div>
+          <div class="commentBody"><%= comment.body %></div>
+          <div class="commentFooter"><%= comment.created_at.try(:strftime, "%Y-%m-%d %H:%M") %></div>
+        </div>
+        <div class="replies" id="replies-container-<%= comment.id %>">
+          <% comment.replies.each do |nested_reply| %>
+            <%= render partial: 'replies/reply', locals: { reply: nested_reply } %>
+          <% end %>
+        </div>
+
+        <% if user_signed_in? %>
+        <div class="btnIg">
+          <%= link_to "Reply", new_comment_reply_path(comment), remote: true, class:"linkStyling" %>
+        </div>
+        <% end %>
+      </div>
+
+      <script>
+        document.addEventListener("turbolinks:load", function() {
+          var replyFormCounter = 0;
+          var maxReplyForms = 1; // Set the maximum number of reply forms
+
+          $(document).on('click', '.reply-button', function(e) {
+            e.preventDefault();
+            console.log("Reply button clicked!"); // Add this line
+            var repliesContainer = $(this).closest('.comment').find('.replies');
+            var replyFormContainer = $(this).closest('.comment').find('.new-reply-form-container');
+            var isNewFormVisible = replyFormContainer.is(':visible');
+
+            // Hide all previously displayed reply forms
+            $('.new-reply-form-container').hide();
+
+            // Show the reply form only if it was not already visible
+            if (!isNewFormVisible && replyFormCounter < maxReplyForms) {
+              $.get($(this).attr('href'))
+                .done(function(response) {
+                  replyFormContainer.html(response).show();
+                  replyFormCounter++; // Increment the counter
+                })
+                .fail(function(error) {
+                  console.log(error);
+                });
+            }
+          });
+        });
+      </script>

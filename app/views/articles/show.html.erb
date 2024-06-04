@@ -1,0 +1,26 @@
+<%= render partial: 'shared/navbar' %>
+</div>
+
+<%= stylesheet_link_tag 'articleStyle' %>
+<div class="container-for-article">
+  <div class="articleTitleContainer">  
+    <div class="articleTitle"><%= @author.userName %> - <%= @article.title%> </div>
+  </div>
+        
+  <div class="articleContent"><%= raw(sanitize(@article.text, tags: %w(p br strong em u li ul ol img), attributes: %w(src alt style width height font-size), css: { 'font' => [], 'font-size' => [], 'width' => [], 'height' => [] })) %></div>
+  <div class="articleFooter"><%= @article.created_at.strftime("%Y-%m-%d %H:%M")%></div>
+</div>
+      <%= link_to 'Edit Article', edit_article_path(@article), remote: true, id: 'edit-article-link' %>
+      
+<h2>Comments</h2>
+<p></p>
+
+<div id="comments">
+  <%= render partial: '/comments/comment', collection: @article.comments, as: :comment %>
+</div>
+
+<%= render partial: 'comments/form', locals: { commentable: @article, comment: Comment.new } %>
+
+<%= javascript_pack_tag 'comments' %>
+
+<%= link_to 'Back', articles_path %>

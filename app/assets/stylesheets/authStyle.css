@@ -1,0 +1,179 @@
+body{
+  background-color: #f0f0f0;
+}
+
+.container-for-article{
+  margin-left: 20%;
+  display:block;
+  background-color: white;
+  font-family: Open Sans,sans-serif;
+  height: 100%;
+  font-size: 16px;
+  line-height: 1.66667;
+  max-width:60%;
+
+}
+
+
+
+.articleTitleContainer{
+
+    height: 35px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    border-bottom: 1px solid #ccc;
+    background-color: #f5f0ff;
+    padding: 0 10px;
+
+}
+
+.articleTitle{
+    font-weight: 700;
+    font-size: 1.7vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 10px;
+
+}
+.articleContent{
+  padding: 10px;
+  white-space: pre-line;
+  font-size: 1.3vw;
+  overflow-x: auto;
+  display: block;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  background-color: #ffffff;
+
+}
+
+.articleFooter{
+    margin-left: 9px;
+    color: rgba(53,53,53,.75);
+    flex: 1 1 auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.commentContainer{
+  margin-left: 5%;
+  display:block;
+  background-color: white;
+  font-family: Open Sans,sans-serif;
+  height: 100%;
+  font-size: 16px;
+  line-height: 1.66667;
+  max-width:60%;
+}
+.commenterContainer{
+    height: 35px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    border-bottom: 1px solid #ccc;
+    background-color: #f5f0ff;
+    padding: 0 10px;
+}
+.commenter{
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 10px;
+}
+
+.commentBody{
+  padding: 10px;
+  white-space: pre-line;
+  overflow-x: auto;
+  display: block;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  background-color: #ffffff;
+}
+
+.commentFooter{
+    margin-left: 9px;
+    color: rgba(53,53,53,.75);
+    flex: 1 1 auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+}
+
+
+.tableRow{
+  border-top: 1px solid #ccc;
+  display: table-row;
+  vertical-align: inherit;
+  border-color: inherit;
+  font-weight: 700;
+  border-collapse: collapse;
+  text-indent: initial;
+  border-spacing: 2px;
+
+}
+
+
+.tablePosts{
+    font-weight: 700;
+    border-collapse: collapse;
+    width: 100%;
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    border-spacing: 2px;
+}
+
+.tableTitle{
+  border-top: 1px solid #ccc;
+  display: table-cell;
+  vertical-align: inherit;
+  font-weight: 700;
+  border-collapse: collapse;
+  width: 100%;
+  text-indent: initial;
+  border-spacing: 2px;
+
+}
+
+.tableReplies{
+  border-top: 1px solid #ccc;
+  padding: 8px;
+  white-space: nowrap;
+  display: table-cell;
+  vertical-align: inherit;
+  font-weight: 700;
+  border-collapse: collapse;
+  text-indent: initial;
+  border-spacing: 2px;
+}
+
+.tableLastUpdated{
+  border-top: 1px solid #ccc;
+  padding: 8px;
+  white-space: nowrap;
+  display: table-cell;
+  vertical-align: inherit;
+  font-weight: 700;
+  border-collapse: collapse;
+  text-indent: initial;
+  border-spacing: 2px;
+
+}
+
+.stopNotWorking{
+  width:100%;
+}
+
+.tablePosts a:link, a:visited{ 
+    text-decoration:none; 
+    color: black;
+}

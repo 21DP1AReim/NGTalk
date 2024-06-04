@@ -1,0 +1,59 @@
+<%= render partial: 'shared/navbar' %>
+</div>
+</div>
+
+<%= stylesheet_link_tag 'postStyle' %>
+<%= javascript_pack_tag 'replies' %>
+
+<div class="container-for-post">
+  <div class="postTitleContainer">
+    <div class="postTitle"><%= @author.userName %> - <%= @post.title %></div>
+      <% if user_signed_in? %>
+      <% if current_user.role == 'admin'|| current_user.role == 'editor'%>
+      <%= link_to 'Edit Post', edit_post_path(@post), remote: true, id: 'edit-post-link', class: 'btn btn-edit' %>
+      <%= form_with(url: post_path(@post), method: :delete, local: true) do |f| %>
+        <%= f.hidden_field :id, value: @post.id %>
+        <%= f.submit "Delete", class: 'btn btn-delete', data: {confirm: "Are you sure you want to delete this post?"} %>
+      <% end %>
+        <% end %>
+        <% end %>
+        
+  </div>
+  <div class="postContent"><%= @post.content %></div>
+  <div class="postFooter"><%= @post.created_at.strftime("%Y-%m-%d %H:%M") %></div>
+</div>
+
+
+
+<h2>Comments</h2>
+<p> </p>
+
+<div id="comments">
+  <%= render partial: '/comments/comment', collection: @post.comments, as: :comment %>
+</div>
+
+<%= render partial: '/comments/form', locals: { post: @post, comment: @comment } %>
+
+<%= javascript_pack_tag 'comments' %>
+
+<%= link_to 'Back', posts_path %>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      $('#edit-post-link').on('click', function(e) {
+        e.preventDefault();
+        var postId = $(this).data('post-id');
+        $.ajax({
+          url: '/posts/' + postId + '/edit',
+          type: 'GET',
+          success: function(response) {
+            console.log(response); 
+            $('.container-for-post').html(response);
+          },
+          error: function(xhr) {
+            console.log(xhr.responseText);
+          }
+        });
+      });
+    });
+</script>
