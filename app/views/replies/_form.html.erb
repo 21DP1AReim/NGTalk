@@ -1,0 +1,11 @@
+<%= form_with(model: [comment, reply], remote: true, url: comment_replies_path(comment), id: "new_reply_#{reply.id}") do |form| %>
+<%# Pašlaik sistēmā izmanto pašreizējā lietotāja lietotājvārdu kā autoru, jo vēl nav iespējams pārmainīt lietotājvārdu %>
+  <div class="form-group">
+    <%= form.hidden_field :comment_id, value: comment.id %>
+    <%= form.hidden_field :commenter, value: current_user.userName %>
+  </div>
+  <div class="form-group">
+    <%= form.text_area :body, class: 'form-control' %>
+  </div>
+  <%= form.submit 'Reply', class: 'btn btn-primary', data: { disable_with: 'Submitting...' } %>
+<% end %>

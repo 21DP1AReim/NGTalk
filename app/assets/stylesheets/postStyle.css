@@ -1,0 +1,348 @@
+body{
+  background-color: #f0f0f0;
+}
+
+.container-for-post{
+  margin-top:1%;
+  margin-left: 7.5%;
+  display:block;
+  background-color: white;
+  font-family: Open Sans,sans-serif;
+  font-size: 16px;
+  line-height: 1.66667;
+  max-width:85%;
+  
+}
+
+.btnIg{
+  display: block;
+  text-decoration: none;
+  border-top: 1px solid #ccc;
+  padding: 5px 5px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  box-shadow: 0 1px 2px 0 rgba(50,50,50,.4);
+  font-size: 105px;
+}
+
+.linkStyling{
+text-decoration: none;
+flex: 1 1 auto;
+margin-right: 2px;
+white-space: nowrap;
+overflow: hidden;
+color: black;
+font-size: 15px;
+font-weight: bold;
+text-overflow: clip;
+}
+.recentActivityAnchor{
+  display: block;
+  text-decoration: none;
+  border-top: 1px solid #ccc;
+  padding: 5px 5px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  box-shadow: 0 1px 2px 0 rgba(50,50,50,.4);
+  font-size: 15px;
+}
+
+.recentActivityAnchor:hover{
+  transition: 0.5ms;
+  background-color:rgb(202, 201, 201);
+}
+
+.recentActivityAnchor:first-child{
+  border-top: 0px;
+}
+.recentActivityAnchor:last-child{
+  border-bottom: 0px;
+  box-shadow: none;
+}
+
+
+
+.recent{
+  height: 280px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-width: 260px;
+  min-width: 100px;
+}
+
+
+.containerPostTable{
+  display:block;
+  background-color: #f0f0f0;
+  font-family: Open Sans,sans-serif;
+  height: 100%;
+  font-size: 16px;
+  line-height: 1.66667;
+  width: 100%;
+  height: 100vh;
+}
+
+.tableHeader{
+  font-weight:1000;
+}
+
+.reply {
+  margin-left: 0; 
+}
+
+.reply-nested {
+  margin-left: 20px; 
+}
+
+.commenter {
+  font-weight: bold; 
+}
+
+
+.commentFooter {
+  font-style: italic; 
+}
+
+.postTitleContainer{
+    height: 35px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    background-color: #f5f0ff;
+    padding: 0 10px;
+  
+}
+
+.postTitle{
+    font-weight: 700;
+    font-size: 1.7vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 10px;
+  
+}
+.postContent{
+  padding: 10px;
+  white-space: pre-line;
+  font-size: 1.3vw;
+  overflow-x: auto;
+  display: block;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  background-color: white;
+
+}
+
+.postFooter{
+    margin-left: 9px;
+    color: rgba(53,53,53,.75);
+    flex: 1 1 auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.commentContainer{
+  margin-left: 5%;
+  display:block;
+  background-color: white;
+  font-family: Open Sans,sans-serif;
+  height: 100%;
+  font-size: 16px;
+  line-height: 1.66667;
+  max-width:60%;
+}
+.commenterContainer{
+    height: 35px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    border-bottom: 1px solid #ccc;
+    background-color: #f5f0ff;
+    padding: 0 10px;
+}
+.commenter{
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 10px;
+}
+
+.commentBody{
+  padding: 10px;
+  white-space: pre-line;
+  overflow-x: auto;
+  display: block;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  background-color: white;
+}
+
+a:visited{
+  color: black;
+  font-size: larger;
+  transition: 0.5ms;
+}
+
+.commentFooter{
+    margin-left: 9px;
+    color: rgba(53,53,53,.75);
+    flex: 1 1 auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+}
+
+
+.tableRow{
+  border-top: 1px solid #ccc;
+  display: table-row;
+  vertical-align: inherit;
+  border-color: inherit;
+  font-weight: 700;
+  border-collapse: collapse;
+  text-indent: initial;
+  border-spacing: 2px;
+  
+}
+
+
+.tablePosts{
+    font-weight: 700;
+    border-collapse: collapse;
+    width: 100%;
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    border-spacing: 2px;
+}
+
+.tableTitle{
+  border-top: 1px solid #ccc;
+  display: table-cell;
+  vertical-align: inherit;
+  font-weight: 700;
+  border-collapse: collapse;
+  width: 100%;
+  text-indent: initial;
+  border-spacing: 2px;
+  
+}
+
+.tableReplies{
+  border-top: 1px solid #ccc;
+  padding: 8px;
+  white-space: nowrap;
+  display: table-cell;
+  vertical-align: inherit;
+  font-weight: 700;
+  border-collapse: collapse;
+  text-indent: initial;
+  border-spacing: 2px;
+}
+
+.tableLastUpdated{
+  border-top: 1px solid #ccc;
+  padding: 8px;
+  white-space: nowrap;
+  display: table-cell;
+  vertical-align: inherit;
+  font-weight: 700;
+  border-collapse: collapse;
+  text-indent: initial;
+  border-spacing: 2px;
+  
+}
+
+.stopNotWorking{
+  width:100%;
+}
+
+.tablePosts a:link{ 
+    text-decoration:none; 
+    color: black;
+}
+
+.forumPostThread{
+  font-size: 12px;
+  display: block;
+  color: black;
+  line-height: 1.66667;
+  background: #181b1f;
+}
+
+.headline{
+  font-size: 15px;
+  font-weight: 1000;
+  color: black;
+  opacity: .65;
+  margin: 0 0 5px;
+  display: block;
+}
+.standard-box{
+  padding: 10px;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.5);
+  background-color: #2d3844;
+  display: block;
+  font-size: 12px;
+  color: black;
+  background: #181b1f;
+}
+
+.two-columns{
+  display: flex;
+  overflow: hidden;
+  margin: 0 -5px;
+  font-size: 12px;
+  color: black;
+  background: #f8f9fa;
+  
+}
+.col{
+  flex: 1 1 50%;
+  min-width: 200px;
+  margin: 0 5px;
+  display: block;
+  font-size: 12px;
+  color: black;
+  background: #f8f9fa;
+}
+
+.titleInput{
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #f8f9fa;
+  border: 1px solid #495867;
+  color: black;
+  outline: none;
+  overflow: visible;
+  font: inherit;
+  margin: 0;
+  writing-mode: horizontal-tb !important;
+  padding-block: 1px;
+  padding-inline: 2px;
+  text-rendering: auto;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  display: inline-block;
+  text-align: start;
+  appearance: auto;
+  -webkit-rtl-ordering: logical;
+  cursor: text;
+  background: white;
+}
+

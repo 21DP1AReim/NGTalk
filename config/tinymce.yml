@@ -1,0 +1,10 @@
+  height: 500
+  menubar: false
+  toolbar:
+    - undo redo | bold italic | fontselect fontsize | alignleft aligncenter alignright | bullist numlist | removeformat | help
+  plugins:
+    - advlist autolink lists link image charmap print preview anchor imagetools
+    - searchreplace visualblocks code fullscreen
+    - insertdatetime media table paste code help wordcount
+    - font fontsize
+  convert_formats: true

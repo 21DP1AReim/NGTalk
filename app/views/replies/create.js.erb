@@ -1,0 +1,6 @@
+<% if @reply.persisted? %>
+  var replyId = '<%= @reply.id %>';
+  var repliesContainer = $('#replies-container-' + replyId);
+  repliesContainer.append('<%= j(render partial: "replies/reply", locals: { reply: @reply }) %>');
+
+<% end %>

@@ -1,0 +1,24 @@
+<div class="comment" id="comment-<%= comment.id %>">
+  <div class="commentContainer">
+    <div class="commenterContainer">
+      <div class="commenter"><strong><%= comment.commenter %></strong></div>
+        <%= form_with(url: comment_path(comment), method: :delete, local: true) do |f| %>
+          <%= f.hidden_field :id, value: comment.id %>
+          <%= f.submit "Delete", data: {confirm: "Are you sure?"}, class: "delete-button" %>
+        <% end %>
+    </div>
+    <div class="commentBody"><%= comment.body %></div>
+    <div class="commentFooter"><%= comment.created_at.try(:strftime, "%Y-%m-%d %H:%M") %></div>        <% if user_signed_in? %>
+      <div class="btnIg", style= "padding-top:5px;">
+        <%= link_to "Reply", new_comment_reply_path(comment), remote: true, class:"linkStyling" %>
+      </div>
+      <% end %>
+      </div>
+  <div class="replies" id="replies-container-<%= comment.id %>">
+    <% comment.replies.each do |nested_reply| %>
+      <%= render partial: 'replies/reply', locals: { reply: nested_reply } %>
+    <% end %>
+  </div>
+
+
+</div>

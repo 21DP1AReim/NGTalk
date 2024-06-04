@@ -1,0 +1,100 @@
+<% if user_signed_in? %>
+  <% if @commentable.is_a?(Article) %>
+    <%= form_with(model: [@commentable, Comment.new], url: article_comments_path(@commentable), remote: true, data: {type: 'script'}, class: 'comment-form', 'data-target': '#comments') do |f| %>
+      <% if f.object.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(f.object.errors.count, "error") %> prohibited this comment from being saved:</h2>
+          <ul>
+            <% f.object.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div style="padding-left:10px;" class="field">
+        <%= f.hidden_field :commenter, value: current_user.userName %>
+      </div>
+      <div style="padding-left:10px;" class="field">
+        <%= f.label :body %><br>
+        <%= f.text_area :body %>
+      </div>
+      <div class="actions">
+        <%= f.submit "Add comment", class: 'comment-submit', disabled: true %>
+        <div id="input-requirements" style="display: none;">Please fill in the required fields.</div>
+      </div>
+    <% end %>
+  <% else %>
+    <%= form_with(model: [@commentable, Comment.new], url: post_comments_path(@commentable), remote: true, data: {type: 'script'}, class: 'comment-form', 'data-target': '#comments') do |f| %>
+      <% if f.object.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(f.object.errors.count, "error") %> prohibited this comment from being saved:</h2>
+          <ul>
+            <% f.object.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div style="padding-left:10px;" class="field">
+        <%= f.hidden_field :commenter, value: current_user.userName %>
+      </div>
+      <div style="padding-left:10px;" class="field">
+        <%= f.label :body %><br>
+        <%= f.text_area :body %>
+      </div>
+      <div class="actions">
+        <%= f.submit "Add comment", class: 'comment-submit', disabled: true %>
+        <div id="input-requirements" style="display: none;">Comment must be longer than 10 characters</div>
+      </div>
+    <% end %>
+  <% end %>
+<% else %>
+  <p>Login to reply</p>
+<% end %>
+
+<script>
+  $(document).on('turbolinks:load', function() {
+    var form = $('.comment-form');
+    var submitButton = form.find('.comment-submit');
+    var bodyInput = form.find('#comment_body');
+    var inputRequirements = form.find('#input-requirements');
+
+    function validateInputs() {
+      var isValid = true;
+
+      if (bodyInput.val().length < 10) {
+        isValid = false;
+      }
+
+      if (isValid) {
+        submitButton.prop('disabled', false);
+        inputRequirements.hide();
+      } else {
+        submitButton.prop('disabled', true);
+        inputRequirements.show();
+      }
+    }
+
+    submitButton.on('click', function() {
+      validateInputs();
+    });
+
+    bodyInput.on('input', function() {
+      if(submitButton.prop('disabled')){
+        inputRequirements.show();
+      } else {
+        inputRequirements.hide();
+      }
+
+      validateInputs();
+    });
+
+
+    form.on('submit', function(event) {
+      if (submitButton.prop('disabled')) {
+        event.preventDefault();
+        inputRequirements.show();
+      }
+    });
+  });
+</script>

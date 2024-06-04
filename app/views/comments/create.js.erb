@@ -1,0 +1,10 @@
+var commentsDiv = $('#comments');
+var newComment = '<%= j(render partial: "comment", collection: @comments) %>';
+
+
+commentsDiv.html('');
+commentsDiv.append(newComment);
+
+if ($('#comment-form')[0]) {
+  $('#comment-form')[0].reset();
+}

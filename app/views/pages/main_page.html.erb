@@ -1,0 +1,48 @@
+<%= stylesheet_link_tag 'mainPageStyle' %>
+<div class="main-content"> 
+  <div>
+    <div class="row no-gutters">
+        <div class="col-sm-3">
+          <div class="lef-div"></div>
+        </div>
+        <div class="col-sm-4">
+          <div id="mainPageNews" class="content-padding">
+            <h2>Recent articles</h2>
+            <div id='recentNews'>
+              <% @recent_articles.each do |article| %>
+                <a class="newsAnchor" href="<%= article_path(article) %>">
+                  <div class="inlineText">
+                    <%= article.title %>
+                  </div>
+                  <div class="endArticle">
+                    <div><%= time_ago_in_words(article.created_at) %> ago</div>
+                    <div><%= article.comments.count + article.comments.map { |c| c.replies.count }.sum  %> comments</div>
+                  </div>
+                </a>
+              <% end %>
+            </div>
+            <a class="more-news-btn" href="<%= articles_path %>"> More news</a>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div id="recentActivity" > </div>
+              <h1 class="recentHeader">Recent Activity</h1>
+              <div class="recent">
+                <% @recent_posts.each do |post| %>
+                  <% total_count = post.comments.count + post.comments.map { |c| c.replies.count }.sum %>
+                  <a class="recentActivityAnchor" href="<%= post_path(post) %>">
+                    <span class="topic"><%= post.title %></span> <%= total_count %>
+                  </a>
+              <% end %>
+              <div class="btnIg">
+                <%= link_to 'Make new post', make_post_page_path, class:"linkStyling" %>
+              </div>
+            </div>
+          </div>
+        <div class="col-sm-3">
+          <div class="lef-div"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,401 @@
+html {
+    font-family: sans-serif;
+    line-height: 1.15;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+
+
+.top-container{
+    border: 1px black solid;
+    background-color: rgb(248, 249, 250);
+}
+
+body{
+    background-color: aliceblue;
+}
+
+.container-for-post{
+  display:block;
+  font-family: Open Sans,sans-serif;
+  overflow-y: scroll;
+  height: 100%;
+  font-size: 16px;
+  line-height: 1.66667;
+  max-width:60%;
+}
+
+.postTitleContainer{
+    height: 35px;
+    font-size: 122px;
+    display: flex;
+    align-items: center;
+    background-color: #d2d1d1;
+}
+
+.postTitle{
+  font-size:12px;
+}
+
+.btnIg{
+    display: block;
+    text-decoration: none;
+    border-top: 1px solid #ccc;
+    padding: 5px 5px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    background: #fff;
+    box-shadow: 0 1px 2px 0 rgba(50,50,50,.4);
+    font-size: 105px;
+}
+
+.linkStyling{
+  text-decoration: none;
+  flex: 1 1 auto;
+  margin-right: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  color: black;
+  font-size: 1.5vh;
+  font-weight: bold;
+  text-overflow: clip;
+}
+
+.basePadding{
+    padding-left: 25%;
+    padding-right: 15%;
+}
+
+.textPadding{
+    padding-top: 3%;
+}
+
+.navTextStyling{
+    font-size: 20px;
+    color: white;
+    padding-left: 25%;
+    user-select: none;
+}
+.main-content{
+    background-color: aliceblue;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.content-padding{
+    max-width: 90%;
+}
+
+#navForum{
+    padding-left: 50%;
+}
+#navNews{
+    padding-left: 25%;
+}
+#navSearch{
+    padding-right: 2%;
+}
+
+.standard-box {
+    display: block;
+    box-shadow: 0 1px 2px 0 rgba(50,50,50,.4);
+    background-color: #fff
+}
+
+#recentNews{
+    background-color:#fff;
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    display: block;
+    box-shadow: 2px, 2px, black;
+}
+
+.newsAnchor{
+    text-decoration: none;
+    display: flex;
+    color: black;
+    border-top: 5px solid #ccc;
+    align-items: center;
+    padding: 6px 10px;
+
+    
+}
+
+.recent a:hover a:visited{
+    color: black;
+    cursor: pointer;
+    transition: 0.5ms;
+    background-color:rgb(202, 201, 201);
+}
+
+ #recentNews a:hover a:visited{
+    color: black;
+    font-size: larger;
+    transition: 0.5ms;
+    background-color:rgb(202, 201, 201);
+}
+
+#recentNews:first-child {
+  border-top: none;
+}
+
+.newsAnchor:first-child {
+  border-top: none;
+}
+
+.inlineText{
+    font-size: 1px;
+    flex: 1 1 auto;
+    text-decoration: none;
+    color: #2d6da3;
+    font-weight: 700;
+}
+
+.endArticle{
+    font-size: 11px;
+    color: rgba(9,21,31,.75);
+    text-align: right;
+    font-weight: 400;
+    line-height: 11px;
+    margin: -1px 0;
+    min-width: 80px
+}
+
+#mainPageNews{
+  margin-bottom: 10px;
+}
+
+.contentTxt{
+  display:flex;
+  width: 50vw;
+  top: 10%;
+  left: 50%;
+  resize: none;
+}
+
+.catTxt{
+  resize:none;
+  width: 20vw;
+}
+
+.makePostForm{
+  padding-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 10px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  flex-direction: column;
+  color: black;
+  font-size: 2vh;
+  border: solid black 5px;
+  font-weight: bolder;
+  resize: none;
+  
+}
+
+.titleTxt{
+  width: 50%;
+  height: 55px;
+  overflow: auto;
+  resize: none;
+}
+
+.activitylist{
+    background: #fff;
+    box-shadow: 0 1px 2px 0 rgba(50,50,50,.4);
+    font-size: 14px;
+    padding: 0 5px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    flex: 1 1 auto;
+    margin-right: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.recentActivityAnchor{
+    display: block;
+    text-decoration: none;
+    border-top: 1px solid #ccc;
+    padding: 5px 5px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    background: #fff;
+    box-shadow: 0 1px 2px 0 rgba(50,50,50,.4);
+    font-size: 15px;
+}
+
+.recentActivityAnchor:first-child{
+    border-top: 0px;
+}
+.recentActivityAnchor:last-child{
+    border-bottom: 0px;
+    box-shadow: none;
+}
+
+h1{ 
+    padding-top: 10px;
+    font-size: 2.4vh;
+}
+.recent{
+    height: 280px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-width: 260px;
+    min-width: 100px;
+}
+
+
+.footer{
+    font-size: 12px;
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+    display: block;
+}
+.footerContent{
+    text-decoration: none;
+    height: 73px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 975px;
+    margin: 0 auto;
+    z-index: 1;
+    position: relative;
+}
+
+.footerLink{
+    height: 73px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.topic{
+    flex: 1 1 auto;
+    margin-right: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: none;
+    color: #2d6da3;
+}
+
+.more-news-btn{
+    font-size: 14px;
+    display: block;
+    padding-bottom: 10px;
+    padding: 5px;
+    color: #2d6da3;
+    background-color: #fff;
+    box-shadow: 0 1px 2px 0 rgba(50,50,50,.4);
+    cursor: pointer;
+    text-align: center;
+    margin: 10px 0 0;
+}
+
+
+
+
+
+.loginInput{
+  height: 38px;
+  box-sizing: border-box;
+  padding: 0 0 0 10px;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 0;
+  outline: none;
+  overflow: visible;
+  font: inherit;
+  margin: 0;
+  writing-mode: horizontal-tb !important;
+  padding-block: 1px;
+  padding-inline: 2px
+  border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+  border-image: initial;
+}
+
+.login-elem{
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.clearFix :before{
+  content: " ";
+  display: table;
+}
+.clearFix: after{
+  clear: both;
+  content: " ";
+  display: table;
+}
+
+.remeberMe{
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+}
+.left{
+  float: left;
+}
+
+.forgot-link{
+  cursor: pointer;
+  
+}
+.right{
+  float: right;
+}
+
+@media screen and (max-width: 992px) {
+
+    #navForum, #navNews{
+        padding-left: 0%;
+    }
+
+
+    
+  }
+
+  @media screen and (max-width: 912px) {
+    
+    .inlineText{
+        font-size: 10px;
+        
+        flex: 1 1 auto;
+        text-decoration: none;
+        color: #2d6da3;
+        font-weight: 700;
+    }
+
+    .endArticle{
+        font-size: 10px;
+
+    }
+
+    .basePadding{
+        padding-left: 0%;
+        padding-right: 0%;
+    }
+    .content-padding{
+        max-width: 100%;
+    }
+
+    .recent{
+        max-width: 100%;
+        width: 100%;
+    }
+
+  }
