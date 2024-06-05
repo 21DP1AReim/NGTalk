@@ -15,7 +15,7 @@
                     <%= article.title %>
                   </div>
                   <div class="endArticle">
-                    <div><%= time_ago_in_words(article.created_at) %> ago</div>
+                    <div><%= time_ago_in_words(article.created_at) %></div>
                     <div><%= article.comments.count + article.comments.map { |c| c.replies.count }.sum  %> comments</div>
                   </div>
                 </a>
