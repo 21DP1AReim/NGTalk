@@ -46,8 +46,11 @@
 </table>
 
 <%= paginate @article, inner_window: 1 %>
-
-<%= link_to 'New article', new_article_path %>
+<% if user_signed_in? %>
+  <% if current_user.role == 'admin'|| current_user.role == 'editor'%>
+    <%= link_to 'New article', new_article_path %>
+  <% end %>
+<% end %>
 </div>
 <script>
 
