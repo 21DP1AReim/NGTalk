@@ -56,8 +56,9 @@
 
   <%= paginate @posts, inner_window: 1 %>
 
-          
+  <% if user_signed_in? %>      
   <%= link_to 'New post', make_post_page_path %>
+  <% end %>
 </div>
 <script>
             $(document).on('change', '#category-filter', function() {
