@@ -110,7 +110,11 @@ How to launch the project:
 2. Download the zip file from github
 3. Unzip the file and move it to your newly created ubuntu directory
 4. In the ubuntu terminal navigate to the project folder (cd dir_name -> cd project)
-5. From the project folder run the following command:
+5.  From the project folder run the following command:
+    ```
+    bundle install
+    ```
+6. From the project folder run the following command:
     ```
     rails db:migrate
     ```
