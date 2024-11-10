@@ -13,6 +13,10 @@ Rails.application.routes.draw do
 
   resources :posts do
     collection do
+      get :new_article
+      post :create_article
+      get :new_post
+      post :create_post
       get :search
     end
     resources :comments, only: [:index, :create, :destroy]

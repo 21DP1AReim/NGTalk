@@ -6,7 +6,7 @@ class Post < ApplicationRecord
   has_many :comments, as: :commentable
   has_many :replies, through: :comments
   before_destroy :delete_associated_comments
-
+  enum post_type: { article: 'article', post: 'post'}
   def self.ransackable_attributes(auth_object = nil)
     ["title"]
   end

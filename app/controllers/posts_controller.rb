@@ -1,20 +1,40 @@
 class PostsController < ApplicationController
   load_and_authorize_resource
-  def create
+  def create_post
     @post = Post.new(post_params)
+    @post.post_type = 'post' 
     @post.author_id = current_user.id
     if @post.save
       redirect_to posts_path
     else
-      render :new
+      render :new_post
     end
   end
 
-  def new
-    @post = Post.new
+  def create_article
+    @post = Post.new(post_params)
+    @post.post_type = 'article' 
     @post.author_id = current_user.id
+    
+    if @post.save
+      redirect_to @post, notice: 'Article was successfully created.'
+    else
+      render :new_article
+    end
   end
 
+  def new_post
+    @post = Post.new
+    @post.author_id = current_user.id
+    @post.post_type = 'post'
+  end
+  
+  def new_article
+    @post = Post.new
+    @post.post_type = 'article'
+    @post.author_id = current_user.id
+  end
+  
   def destroy
     @post = Post.find(params[:id])
     @post.destroy
