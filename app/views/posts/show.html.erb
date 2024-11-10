@@ -1,5 +1,5 @@
 <%= stylesheet_link_tag 'postStyle' %>
-
+<%= javascript_pack_tag 'replies' %>
 
 <div style="padding-left:5%; padding-right:5%;">
   <div class="row">
@@ -29,7 +29,7 @@
 
           <%= render partial: '/comments/form', locals: { post: @post, comment: @comment } %>
 
-          
+          <%= javascript_pack_tag 'comments' %>
 
           <%= link_to 'Back', posts_path %>
         </div>
@@ -44,12 +44,9 @@
               <span class="topic"><%= post.title %></span> <%= total_count %>
             </a>
           <% end %>
-               
-          <% if user_signed_in? %> 
-            <div class="btnIg">
-              <%= link_to 'Make new post', make_post_page_path, class:"linkStyling" %>
-            </div>
-          <% end %>
+          <div class="btnIg">
+            <%= link_to 'Make new post', make_post_page_path, class:"linkStyling" %>
+          </div>
         </div>
       </div>
     </div>

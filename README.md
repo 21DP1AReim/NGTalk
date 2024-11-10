@@ -1,7 +1,7 @@
 
 # News and gaming forum website
 
-Website which combines a typical news website an a forum website into 1. Users can catch up on the latest news and discuss various topics with other users.
+Website which combines a typical news website and a forum website into 1. Users can catch up on the latest news and discuss various topics with other users.
 
 The project fixes some of the most crucial problems of modern news websites and forum websites. Most news websites don't allow for discussions between users, and if they do it's only in the comment section of an article. 
 Forums are a great place for discussions on various topics and allow for users to freely express their thoughts on various issues. Users can create posts on any topic, including news, but since posts can by made by any user the information isn't all that trustworthy, so it's hard to get the actual news from forums.

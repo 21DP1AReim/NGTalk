@@ -1,17 +1,17 @@
 <%= form_for @post, remote: true do |f| %>
-<div class="two-columns">
-  <div class="col">
-    <div class="headline">Subject </div>
-    <%= f.text_area :title, class: "titleInput", maxlength: 50 %>
+  <div class="two-columns">
+    <div class="col">
+      <div class="headline">Subject </div>
+      <%= f.text_area :title, class: "titleInput", maxlength: 50 %>
+    </div>
+    <div class="col">
+        <div class="headline">Category </div>
+        <%= f.select :category, ['Gaming', 'News', 'Off-topic'], {}, { class:"titleInput" } %>
+    </div>
+  
+  <div class="ctr">
+    <%= f.label :content %>
+    <%= f.text_area :content, class: "titleInput", maxlength: 150 %> <br>
   </div>
-  <div class="col">
-      <div class="headline">Category </div>
-      <%= f.select :category, ['Gaming', 'News', 'Off-topic'], {}, { class:"titleInput" } %>
-  </div>
-
-<div class="ctr">
-  <%= f.label :content %>
-  <%= f.text_area :content, class: "titleInput", maxlength: 150 %> <br>
-</div>
-  <%= f.submit 'Update Post' %>
-<% end %>
+    <%= f.submit 'Update Post' %>
+  <% end %>
