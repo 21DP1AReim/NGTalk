@@ -1,8 +1,9 @@
 class PagesController < ApplicationController
- def main_page
-   @recent_posts = get_recent_posts 
-   @recent_articles = Article.order(updated_at: :desc).limit(18)
+  def main_page
+    @recent_posts = get_recent_posts
+    @recent_articles = Post.where(post_type: 'article').order(updated_at: :desc).limit(18)
   end
+
   def stylesheet
     send_file 'app/assets/stylesheets/application.css', type: 'text/css', disposition: 'inline'
   end
@@ -11,7 +12,7 @@ class PagesController < ApplicationController
     send_file 'app/assets/images/g.png', type: 'image/png', disposition: 'inline'
   end
 
-def make_post_page
+  def make_post_page
     render 'pages/make_post_page'
   end
 
@@ -34,9 +35,8 @@ def make_post_page
   def get_recent_posts
     Post.order(updated_at: :desc).limit(10)
   end
-  
+
   def post_params
     params.require(:post).permit(:title, :category, :content, :author_id)
   end
-
 end

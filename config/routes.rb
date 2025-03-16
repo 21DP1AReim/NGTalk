@@ -3,19 +3,23 @@ Rails.application.routes.draw do
   get 'main_page', to: 'pages#main_page'
   root 'pages#main_page'
 
-  resources :articles
+  # resources :articles
 
   resources :comments do
-    resources :replies, only: [:new, :create, :destroy], controller: 'replies' do
-      resources :replies, only: [:new, :create, :destroy], controller: 'replies'
+    resources :replies, only: %i[new create destroy], controller: 'replies' do
+      resources :replies, only: %i[new create destroy], controller: 'replies'
     end
   end
 
   resources :posts do
     collection do
+      get :new_article
+      post :create_article
+      get :new_post
+      post :create_post
       get :search
     end
-    resources :comments, only: [:index, :create, :destroy]
+    resources :comments, only: %i[index create destroy]
   end
 
   get 'stylesheet', to: 'pages#stylesheet'

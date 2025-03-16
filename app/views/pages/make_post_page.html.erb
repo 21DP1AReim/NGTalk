@@ -4,7 +4,7 @@
   <div class="makePostForm">
     <div class="headline">Make new post </div
       <div class="standard-box">
-        <%= form_for @post, url: posts_path do |f| %>
+       <%= form_with(model: @post, url: create_post_posts_path, local: true) do |f| %>
           <div class="two-columns">
             <div class="col">
               <div class="headline">Subject </div>

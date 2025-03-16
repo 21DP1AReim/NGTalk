@@ -34,25 +34,26 @@
     </div>
   </div>
 <body>
-    <div class="top-container">
-        <div class="m-1" >
-           <nav id="top-nav" class="navbar navbar-expand-lg navbar-dark bg-dark basePadding">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="<%= main_page_path %>"> <%= image_tag "g.png", class: "img-fluid d-inline-block align-top", height:"40", width:"40", alt: "" %> </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myNav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div id="myNav" class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-        <li class="nav-item">
+  <div class="top-container">
+    <div class="m-1" >
+      <nav id="top-nav" class="navbar navbar-expand-lg navbar-dark bg-dark basePadding">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="<%= main_page_path %>"> <%= image_tag "g.png", class: "img-fluid d-inline-block align-top", height:"40", width:"40", alt: "" %> </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myNav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div id="myNav" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="nav-item">
               <%= link_to "Home", main_page_path, class: "nav-link navTextStyling", style: "color:azure;", id: "navHome" %>
 </li>
           <li class="nav-item">
-            <%= link_to "News", '/articles', class: "nav-link navTextStyling", style: "color:azure;", id: "navNews" %>
+              <%= link_to "News", posts_path(post_type: 'article'), class: "nav-link navTextStyling", style: "color:azure;", id: "navNews" %>
           </li>
 
 <li class="nav-item">
-  <%= link_to "Forum", posts_path, class: "nav-link navTextStyling", style: "color:azure;", id: "navForum" %>
+  <%= link_to "Forum", posts_path(post_type: 'post'), class: "nav-link navTextStyling", style: "color:azure;", id: "navForum" %>
+
 </li>
 
       </ul>

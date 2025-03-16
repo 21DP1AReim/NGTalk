@@ -1,30 +1,26 @@
-# frozen_string_literal: true
-
 class Ability
   include CanCan::Ability
 
   def initialize(user)
-  
+    user ||= User.new
 
-      user ||= User.new
-      if user.admin?
-        can :manage, :all
-      elsif user.editor?
-        can :manage, [Article, Comment, Post]
-        can :create, [Article, Comment, Post]
-        cannot :manage, User
-      elsif user.writer?
-        can :create, [Article, Comment, Post]
-        can :read, :all
-        cannot :manage, User
-      elsif user.user?
-        can :create, [Post, Comment]
-        can :read, :all
-        cannot :manage, User
-      else
-        can :read, :all
+    if user.admin?
+      can :manage, :all
+    else
+      can :read, :all
+      if user.persisted?
+        can :create, Comment
+        case user.role
+        when 'editor'
+          can :manage, [Post, Comment]
+        when 'writer'
+          can :create, Post # Writers can create both articles and posts
+        when 'user'
+          can :create, Post, post_type: 'post' # Users can only create regular posts
+        end
+        can :manage, Post, author_id: user.id
         cannot :manage, User
       end
-    
+    end
   end
 end
