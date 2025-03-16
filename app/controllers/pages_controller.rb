@@ -1,5 +1,6 @@
 class PagesController < ApplicationController
   def main_page
+
     @recent_posts = get_recent_posts
     @recent_articles = Post.where(post_type: 'article').order(updated_at: :desc).limit(18)
   end
@@ -40,3 +41,4 @@ class PagesController < ApplicationController
     params.require(:post).permit(:title, :category, :content, :author_id)
   end
 end
+

@@ -23,6 +23,7 @@
                   <div class="postFooter"><%= @article.created_at.strftime("%Y-%m-%d %H:%M")%></div>
                 </div>
           </div>
+          
           <h2>Comments</h2>
 
           <div id="comments">
@@ -31,7 +32,6 @@
 
           <%= render partial: '/comments/form', locals: { post: @article, comment: @comment } %>
 
-          <%= javascript_pack_tag 'comments' %>
 
           <%= link_to 'Back', articles_path %>
         </div>
@@ -46,9 +46,11 @@
               <span class="topic"><%= post.title %></span> <%= total_count %>
             </a>
           <% end %>
-          <div class="btnIg">
-            <%= link_to 'Make new post', make_post_page_path, class:"linkStyling" %>
-          </div>
+          <% if user_signed_in? %> 
+            <div class="btnIg">
+              <%= link_to 'Make new post', make_post_page_path, class:"linkStyling" %>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
