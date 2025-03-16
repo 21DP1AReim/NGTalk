@@ -18,7 +18,8 @@
                 <% end %>
               <% end %> 
               </div>
-            <div class="postContent"><%= @post.content %></div>
+            <div class="postContent"><%= raw(@post.content.gsub(/\s+/," ")) %></div>
+              
             <div class="postFooter"><%= @post.created_at.strftime("%Y-%m-%d %H:%M") %></div>
           </div>
           <h2>Comments</h2>
