@@ -1,23 +1,24 @@
 <%= stylesheet_link_tag 'postStyle' %>
-<%= javascript_pack_tag 'replies' %>
 
 <div style="padding-left:5%; padding-right:5%;">
   <div class="row">
     <div class="col-md-9">
         <div>
           <div class="container-for-post">
-            <div class="postTitleContainer">
-              <div class="postTitle"><%= @author.userName %> - <%= @post.title %></div>
-              <% if user_signed_in? %>
-                <% if current_user.role == 'admin'|| current_user.role == 'editor'%>
-                  <%= link_to 'Edit', edit_post_path(@post), remote: true, id: 'edit-post-link', class: 'btn btn-edit' %>
-                  <%= form_with(url: post_path(@post), method: :delete, local: true) do |f| %>
+          <div class="postTitleContainer">
+          <div class="postTitle">
+              <%= @author&.user_name || 'Unknown Author' %> - <%= @post.title %>
+            </div>
+            <% if user_signed_in? %>
+              <% if current_user.role == 'admin' || current_user.role == 'editor' %>
+                <%= link_to 'Edit', edit_post_path(@post), remote: true, id: 'edit-post-link', class: 'btn btn-edit' %>
+                <%= form_with(url: post_path(@post), method: :delete, local: true) do |f| %>
                   <%= f.hidden_field :id, value: @post.id %>
                   <%= f.submit "Delete", class: 'btn btn-delete', data: {confirm: "Are you sure you want to delete this post?"} %>
-                  <% end %>
                 <% end %>
-              <% end %> 
-              </div>
+              <% end %>
+            <% end %> 
+          </div>
             <div class="postContent"><%= raw(@post.content.gsub(/\s+/," ")) %></div>
               
             <div class="postFooter"><%= @post.created_at.strftime("%Y-%m-%d %H:%M") %></div>
@@ -25,29 +26,37 @@
           <h2>Comments</h2>
 
           <div id="comments">
-           <%= render partial: '/comments/comment', collection: @post.comments, as: :comment %>
-          </div>
 
-          <%= render partial: '/comments/form', locals: { post: @post, comment: @comment } %>
 
-          <%= javascript_pack_tag 'comments' %>
+          <%= render partial: 'comments/form', locals: { post: @post, comment: @comment } %>
 
-          <%= link_to 'Back', posts_path %>
+
+          <% @post.comments.where(parent_id: nil).each do |comment| %>
+            <%= render partial: 'comments/comment', locals: { comment: comment } %>
+          <% end %>
+        </div>
+        
         </div>
       </div>
       <div class="col-md-3">
         <div id="recentActivity" > </div>
         <h1 class="recentHeader">Recent Activity</h1>
         <div class="recent">
-          <% @recent_posts.each do |post| %>
-            <% total_count = post.comments.count + post.comments.map { |c| c.replies.count }.sum %>
-            <a class="recentActivityAnchor" href="<%= post_path(post) %>">
-              <span class="topic"><%= post.title %></span> <%= total_count %>
-            </a>
+          <% if @recent_posts.any? %>
+            <% @recent_posts.each do |post| %>
+              <% total_count = post.comments.count + post.comments.sum { |c| c.replies.count } %>
+              <a class="recentActivityAnchor" href="<%= post_path(post) %>">
+                <span class="topic"><%= post.title %></span> <%= total_count %>
+              </a>
+            <% end %>
+          <% else %>
+            <p>No recent activity</p>
           <% end %>
-          <div class="btnIg">
-            <%= link_to 'Make new post', make_post_page_path, class:"linkStyling" %>
-          </div>
+          <% if user_signed_in? %>
+            <div class="btnIg">
+              <%= link_to 'Make new post', make_post_page_path, class:"linkStyling" %>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>

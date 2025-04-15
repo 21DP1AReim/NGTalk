@@ -31,7 +31,7 @@ class RepliesController < ApplicationController
       @reply = @comment.replies.build(reply_params)
     end
 
-    @reply.commenter = current_user.userName
+    @reply.commenter = current_user.user_name
 
 
      if @reply.save

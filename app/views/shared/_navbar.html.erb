@@ -33,7 +33,7 @@
       </div>
     </div>
   </div>
-<body>
+<body style="height:100 vh">
   <div class="top-container">
     <div class="m-1" >
       <nav id="top-nav" class="navbar navbar-expand-lg navbar-dark bg-dark basePadding">
@@ -43,47 +43,55 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           <div id="myNav" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="nav-item">
-              <%= link_to "Home", main_page_path, class: "nav-link navTextStyling", style: "color:azure;", id: "navHome" %>
-</li>
-          <li class="nav-item">
-              <%= link_to "News", posts_path(post_type: 'article'), class: "nav-link navTextStyling", style: "color:azure;", id: "navNews" %>
-          </li>
+            <ul class="nav navbar-nav">
+              <li class="nav-item">
+                <%= link_to "Home", main_page_path, class: "nav-link navTextStyling", style: "color:azure;", id: "navHome" %>
+              </li>
+              <li class="nav-item">
+                  <%= link_to "News", posts_path(post_type: 'article'), class: "nav-link navTextStyling", style: "color:azure;", id: "navNews" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Forum", posts_path(post_type: 'post'), class: "nav-link navTextStyling", style: "color:azure;", id: "navForum" %>
+              </li>
 
-<li class="nav-item">
-  <%= link_to "Forum", posts_path(post_type: 'post'), class: "nav-link navTextStyling", style: "color:azure;", id: "navForum" %>
+              <% if user_signed_in? %>
+                <li class="nav-item" style="margin-left:40px">
+                  <%= link_to "My Activity", activity_users_path, class: "nav-link navTextStyling", style: "color:azure;" %>
+                </li>
+              <% end %>
 
-</li>
-
-      </ul>
-    <ul class="nav navbar-nav ms-auto" id="navSearch">
-      <%= form_tag(search_path, method: :get, id: 'search-form', class: 'form-inline my-2 my-lg-0') do %>
-        <%= text_field_tag 'saerch[title_cont]', params[:search], class: 'form-control mr-sm-2', id: 'search-input', placeholder: 'Search', aria: { label: 'Search' } %>
-      <% end %>
-    </ul>
-      <ul class="nav navbar-nav">
-          <% if user_signed_in? %>
-            <li class="nav-item my-lg-0 my-2 dropdown">
-              <a style="color:azure;" class="nav-link navTextStyling dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                <%= current_user.userName %>
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
-              </ul>
-            </li>
-          <% else %>
-            <li class="nav-item my-lg-0 my-2">
-              <a style="color:azure;" class="nav-link navTextStyling" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
-            </li>
-          <% end %>
-      </ul>
+              
+            </ul>
+            <ul class="nav navbar-nav ms-auto" id="navSearch">
+              <%= form_tag(search_path, method: :get, id: 'search-form', class: 'form-inline my-2 my-lg-0') do %>
+                <%= text_field_tag 'saerch[title_cont]', params[:search], class: 'form-control mr-sm-2', id: 'search-input', placeholder: 'Search', aria: { label: 'Search' } %>
+              <% end %>
+            </ul>
+            <ul class="nav navbar-nav">
+                <% if user_signed_in? %>
+                  <li class="nav-item my-lg-0 my-2 dropdown">
+                    <a style="color:azure;" class="nav-link navTextStyling dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                      <%= current_user.user_name %>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                      <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+                    </ul>
+                    <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                      <%= button_to "My Posts", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+                    </ul>
+                  </li>
+                <% else %>
+                  <li class="nav-item my-lg-0 my-2">
+                    <a style="color:azure;" class="nav-link navTextStyling" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
+                  </li>
+                <% end %>
+            </ul>
+          </div>
+        </div>
+      </nav>
     </div>
-  </div>
-                 
-</nav>
-</div>
-</div>
+  </div>    
+
 
 
 

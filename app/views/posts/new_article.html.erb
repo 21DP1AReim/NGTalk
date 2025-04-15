@@ -1,19 +1,29 @@
-
 <div class="container">
   <div class="makePostForm"> 
-    <%= form_with(model: @post, url: create_article_posts_path, local: true, scope: :post) do |f| %>
-      <div>
-        <%= f.label :title %> <br>
-        <%= f.text_area :title, class: "titleTxt", maxlength: 50 %> <br>
+    <%= form_with(model: @post, url: create_article_posts_path, local: true) do |f| %>
+
+        <div class="headline">Title</div>
+        <%= f.text_area :title, class: "titleInput", maxlength: 50 %>
+      
+      <div class="headline">Categories</div>
+      <div class="category-checkboxes">
+        <% Category.all.each do |category| %>
+          <div class="checkbox">
+            <%= check_box_tag "post[category_ids][]", category.id, 
+                @post.categories.include?(category), 
+                id: "category_#{category.id}" %>
+            <%= label_tag "category_#{category.id}", category.name %>
+          </div>
+        <% end %>
       </div>
-        <%= f.label :category %> <br>
-        <%= f.text_field :category %>
       
       <div>
         <%= f.label :content %> <br>
         <%= f.text_area :content, class: "tinymce" %>
         <%= tinymce %> <br>
       </div>  
+      
+      <%= f.hidden_field :post_type, value: 'article' %>
       <%= f.submit "Create Article", class: "btn btn-warning" %> <br>
     <% end %>
   </div>

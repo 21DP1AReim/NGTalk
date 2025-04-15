@@ -1,20 +1,29 @@
-
+<%= stylesheet_link_tag 'postStyle' %>
 <div class="container">
-  <div class="makePostForm"> 
-    <%= form_with(model: @post, url: create_post_posts_path, local: true, scope: :post) do |f| %>
-      <div>
-        <%= f.label :title %> <br>
-        <%= f.text_area :title, class: "titleTxt", maxlength: 50 %> <br>
-      </div>
-        <%= f.label :category %> <br>
-        <%= f.text_field :category %>
-      
-      <div>
-        <%= f.label :content %> <br>
-        <%= f.text_area :content, class: "tinymce" %>
-        <%= tinymce %> <br>
-      </div>  
-      <%= f.submit "Create Post", class: "btn btn-warning" %> <br>
-    <% end %>
+  <div class="makePostForm">
+    <div class="headline">Make new post</div>
+    <div class="standard-box">
+      <%= form_with(model: @post, url: create_post_posts_path, local: true) do |f| %>
+        <div class="headline">Subject</div>
+        <%= f.text_area :title, class: "titleInput", maxlength: 30 %>
+        
+        <div class="headline">Categories</div>
+        <div class="category-checkboxes">
+          <% Category.all.each do |category| %>
+            <div class="checkbox">
+              <%= check_box_tag "post[category_ids][]", category.id, @post.categories.include?(category), id: "category_#{category.id}" %>
+              <%= label_tag "category_#{category.id}", category.name %>
+            </div>
+          <% end %>
+        </div>
+        
+        <div class="ctr">
+          <%= f.label :content %>
+          <%= f.text_area :content, class: "titleInput", maxlength: 150 %>
+        </div>
+        
+        <%= f.submit "Create post", class: "btn btn-warning" %>
+      <% end %>
+    </div>
   </div>
 </div>

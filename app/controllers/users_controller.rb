@@ -1,4 +1,4 @@
-class UserController < ApplicationController
+class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user, only: [:show, :read, :edit, :update, :destroy]
   before_action :authorize_admin, only: [:edit, :update, :destroy]
@@ -19,6 +19,10 @@ class UserController < ApplicationController
   end
 
 
+  def activity
+    @posts = current_user.activity_posts.includes(:author, :comments)
+  end
+
   def update
     if @user.update(user_params)
       redirect_to @user, notice: 'User was successfully updated.'
@@ -38,7 +42,7 @@ class UserController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:userName, :email, :password, :password_confirmation)
+    params.require(:user).permit(:user_name, :email, :password, :password_confirmation)
   end
 
 end

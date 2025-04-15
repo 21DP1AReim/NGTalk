@@ -2,7 +2,7 @@
 <%# Pašlaik sistēmā izmanto pašreizējā lietotāja lietotājvārdu kā autoru, jo vēl nav iespējams pārmainīt lietotājvārdu %>
   <div class="form-group">
     <%= form.hidden_field :comment_id, value: comment.id %>
-    <%= form.hidden_field :commenter, value: current_user.userName %>
+    <%= form.hidden_field :commenter, value: current_user.user_name %>
   </div>
   <div class="form-group">
     <%= form.text_area :body, class: 'form-control' %>

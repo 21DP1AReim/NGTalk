@@ -6,7 +6,7 @@
         <div>
           <div class="container-for-post">
             <div class="postTitleContainer">
-              <div class="postTitle"><%= @author.userName %> - <%= @article.title %></div>
+              <div class="postTitle"><%= @author.user_name %> - <%= @article.title %></div>
               <% if user_signed_in? %>
                 <% if current_user.role == 'admin'|| current_user.role == 'editor'%>
                 <%= link_to 'Edit', edit_article_path(@article), remote: true, id: 'edit-article-link', class: 'btn btn-edit' %>

@@ -4,7 +4,6 @@ class SearchController < ApplicationController
     @results = []
 
     if @q
-      @results += Article.ransack(title_cont: @q[:title_cont]).result
       @results += Post.ransack(title_cont: @q[:title_cont]).result
       @results = @results.uniq
     end

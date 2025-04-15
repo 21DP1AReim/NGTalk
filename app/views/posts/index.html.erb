@@ -1,47 +1,51 @@
-  <%= stylesheet_link_tag 'postStyle' %>
-  <div class="containerPostTable">
+<%= stylesheet_link_tag 'postStyle' %>
+<div class="containerPostTable">
 
 
-    <table class="tablePosts">
-      <thead>
-        <tr>
-          <th class="tableHeader">Title</th>
-          <th class="tableHeader">Replies
-            <%= link_to '▼',posts_path(sort_by: 'replies_desc', post_type: params[:post_type]) %>
-            <%= link_to '▲', posts_path(sort_by: 'replies_asc', post_type: params[:post_type]) %>
-          </th>
-          <th class="tableHeader">Activity
-            <%= link_to '▼', posts_path(sort_by: 'activity_asc', post_type: params[:post_type]) %>
-            <%= link_to '▲', posts_path(sort_by: 'activity_desc', post_type: params[:post_type]) %>
-          </th>
+  <table class="tablePosts">
+    <thead>
+      <tr>
+        <th class="tableHeader">Title</th>
+        <th class="tableHeader">Replies
+          <%= link_to '▼',posts_path(sort_by: 'replies_desc', post_type: params[:post_type]) %>
+          <%= link_to '▲', posts_path(sort_by: 'replies_asc', post_type: params[:post_type]) %>
+        </th>
+        <th class="tableHeader">Activity
+          <%= link_to '▼', posts_path(sort_by: 'activity_asc', post_type: params[:post_type]) %>
+          <%= link_to '▲', posts_path(sort_by: 'activity_desc', post_type: params[:post_type]) %>
+        </th>
+      </tr>
+    </thead>
+    <tbody id="table-body">
+      <% @posts.each do |post| %>
+        <tr class="tableRow">
+          <td class="tableTitle">
+            <%= link_to post.title, post_path(post) %>
+          </td>
+          <td class="tableReplies">
+            <% reply_count = post.comments.sum { |c| c.replies.count } %>
+            <%= link_to post.comments.count + reply_count, post_path(post) %>
+          </td>
+          <td class="tableLastUpdated">
+            <%= time_ago_in_words(post.updated_at) %>
+          </td>
+          <% if user_signed_in? && current_user.admin? %>
+            <td>
+              <%= button_to "Delete", post_path(post), method: :delete, data: { confirm: "Are you sure?" } %>
+            </td>
+          <% end %>
         </tr>
-      </thead>
-      <tbody id="table-body">
-        <% @posts.each do |post| %>
-          <tr class="tableRow">
-            <td class="tableTitle">
-              <%= link_to post.title, post_path(post) %>
-            </td>
-            <td class="tableReplies">
-              <% total_count = post.comments.count + post.comments.sum { |c| c.replies.count } %>
-              <%= link_to total_count, post_path(post) %>
-            </td>
-            <td class="tableLastUpdated">
-              <%= time_ago_in_words(post.updated_at) %>
-            </td>
-            <% if user_signed_in? && current_user.admin? %>
-              <td>
-                <%= button_to "Delete", post_path(post), method: :delete, data: { confirm: "Are you sure?" } %>
-              </td>
-            <% end %>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-    <%= paginate @posts %>
+      <% end %>
+    </tbody>
+  </table>
+  <%= paginate @posts %>
+  <% if user_signed_in? %>
     <% if params[:post_type] == 'article' %>
-      <%= link_to "New Article", new_article_posts_path %>
+      <% if current_user.admin? %>
+        <%= link_to "New Article", new_article_posts_path %>
+        <% end %>
     <% else %>
-      <%= link_to "New Post", new_post_posts_path %>
+      <%= link_to "New Post", make_post_page_path %>
     <% end %>
-  </div>
+  <% end %>
+</div>

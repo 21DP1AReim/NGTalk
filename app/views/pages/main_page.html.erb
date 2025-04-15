@@ -1,7 +1,7 @@
 <%= stylesheet_link_tag 'mainPageStyle' %>
 <div class="main-content"> 
   <div>
-    <div class="row no-gutters">
+    <div class="row gx-3">
       <div class="col-sm-3">
         <div class="lef-div"></div>
       </div>
@@ -34,9 +34,11 @@
                     <span class="topic"><%= post.title %></span> <%= total_count %>
                   </a>
               <% end %>
-              <div class="btnIg">
-                <%= link_to 'Make new post', make_post_page_path, class:"linkStyling" %>
-              </div>
+              <% if user_signed_in? && current_user.admin? %>
+                <div class="btnIg">
+                  <%= link_to 'Make new post', make_post_page_path, class:"linkStyling" %>
+                </div>
+              <% end %>  
             </div>
           </div>
         <div class="col-sm-3">
@@ -45,4 +47,3 @@
       </div>
     </div>
   </div>
-</div>

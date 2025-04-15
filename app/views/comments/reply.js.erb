@@ -1,0 +1,7 @@
+document.querySelector('#replies-container-<%= @parent_comment.id %>')
+        .insertAdjacentHTML('afterbegin', '<%= j render "comments/form", 
+                                         post: @parent_comment.post, 
+                                         comment: @comment,
+                                         local: false %>');
+
+if (window.initializeCommentForms) window.initializeCommentForms();
