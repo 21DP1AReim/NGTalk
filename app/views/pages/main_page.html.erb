@@ -1,14 +1,11 @@
 <%= stylesheet_link_tag 'mainPageStyle' %>
-<div class="main-content"> 
-  <div>
-    <div class="row gx-3">
-      <div class="col-sm-3">
-        <div class="lef-div"></div>
-      </div>
-      <div class="col-sm-4">
+<div class="main-content container mt-4"> 
+  <div class="row gx-5">
+      <div class="col-sm-8">
         <div id="mainPageNews" class="content-padding">
-          <h2>Recent articles</h2>
-          <div id='recentNews'>
+          <span style="font-size:24px;font-weight:bold">Recent articles</h2>
+          <div class="mt-2" id='recentNews'>
+            <%#Loop through every recent article and show it on the page%>
             <% @recent_articles.each do |article| %>
               <a class="newsAnchor" href="<%= post_path(article) %>">
                 <div class="inlineText">
@@ -16,6 +13,7 @@
                 </div>
                 <div class="endArticle">
                   <div><%= time_ago_in_words(article.created_at) %> ago</div>
+                  <%#Calculate total amount of comments per article%>
                   <div><%= article.comments.count + article.comments.map { |c| c.replies.count }.sum  %> comments</div>
                 </div>
               </a>
@@ -24,7 +22,7 @@
           <a class="more-news-btn" href="<%= posts_path(post_type: 'article') %>"> More news</a>
           </div>
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-4">
           <div id="recentActivity" > </div>
             <h1 class="recentHeader">Recent Activity</h1>
               <div class="recent">
@@ -33,17 +31,13 @@
                   <a class="recentActivityAnchor" href="<%= post_path(post) %>">
                     <span class="topic"><%= post.title %></span> <%= total_count %>
                   </a>
-              <% end %>
-              <% if user_signed_in? && current_user.admin? %>
-                <div class="btnIg">
-                  <%= link_to 'Make new post', make_post_page_path, class:"linkStyling" %>
-                </div>
-              <% end %>  
+                <% end %>
+                <% if user_signed_in? %>
+                  <div class="btnIg">
+                    <%= link_to 'Make new post', make_post_page_path, class:"linkStyling" %>
+                  </div>
+                <% end %>  
             </div>
           </div>
-        <div class="col-sm-3">
-          <div class="lef-div"></div>
-        </div>
       </div>
-    </div>
-  </div>
+</div>

@@ -1,17 +1,36 @@
 body{
-  background-color: #f0f0f0;
+  background-color: aliceblue;
+}
+html{
+  background-color: aliceblue;
 }
 
 .container-for-post{
-  margin-top:1%;
-  margin-left: 7.5%;
   display:block;
   background-color: white;
   font-family: Open Sans,sans-serif;
   font-size: 16px;
   line-height: 1.66667;
-  max-width:85%;
-  
+}
+
+
+.makePostForm{
+  max-width: 600px;
+  margin: 20px auto;
+  background: #fff;
+  padding: 25px 30px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  font-family: 'Open Sans', sans-serif;
+  color: #222;
+}
+
+.editPostForm{
+  max-width: 600px;
+  background: #fff;
+  padding: 25px 30px;
+  font-family: 'Open Sans', sans-serif;
+  color: #222;
 }
 
 .btnIg{
@@ -38,42 +57,8 @@ font-size: 15px;
 font-weight: bold;
 text-overflow: clip;
 }
-.recentActivityAnchor{
-  display: block;
-  text-decoration: none;
-  border-top: 1px solid #ccc;
-  padding: 5px 5px;
-  height: 25px;
-  display: flex;
-  align-items: center;
-  background: #fff;
-  box-shadow: 0 1px 2px 0 rgba(50,50,50,.4);
-  font-size: 15px;
-}
-
-.recentActivityAnchor:hover{
-  transition: 0.5ms;
-  background-color:rgb(202, 201, 201);
-}
-
-.recentActivityAnchor:first-child{
-  border-top: 0px;
-}
-.recentActivityAnchor:last-child{
-  border-bottom: 0px;
-  box-shadow: none;
-}
 
 
-
-.recent{
-  height: 280px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  max-width: 260px;
-  min-width: 100px;
-}
 
 
 .containerPostTable{
@@ -87,6 +72,72 @@ text-overflow: clip;
   height: 100vh;
 }
 
+.postTitleContainer {
+  display: flex;
+  align-items: center;
+  height: 35px;
+  font-size: 12px;
+  border-bottom: 1px solid #ccc;
+  background-color: #f5f0ff;
+  padding: 0 10px;
+}
+
+.postTitle {
+  font-weight: 700;
+  font-size: 1.7vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-grow: 1; 
+}
+
+.postHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+  white-space: nowrap;
+}
+.postAuthor {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+
+.btn-3dots {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: #333;
+  cursor: pointer;
+  user-select: none;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-3dots:hover,
+.btn-3dots:focus {
+  background: transparent !important;
+  color: #000;
+  outline: none;
+  box-shadow: none;
+}
+
+.btn-3dots::after {
+  display: none;
+}
+
+.dropdown-menu-end {
+  right: 0;
+  left: auto;
+}
+
+
 .tableHeader{
   font-weight:1000;
 }
@@ -99,35 +150,12 @@ text-overflow: clip;
   margin-left: 20px; 
 }
 
-.commenter {
-  font-weight: bold; 
-}
 
 
 .commentFooter {
   font-style: italic; 
 }
 
-.postTitleContainer{
-    height: 35px;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #ccc;
-    background-color: #f5f0ff;
-    padding: 0 10px;
-  
-}
-
-.postTitle{
-    font-weight: 700;
-    font-size: 1.7vw;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-right: 10px;
-  
-}
 .postContent{
   padding: 10px;
   white-space: pre-line;
@@ -141,12 +169,32 @@ text-overflow: clip;
 }
 
 .postFooter{
-    margin-left: 9px;
-    color: rgba(53,53,53,.75);
-    flex: 1 1 auto;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  font-size: 12px;
+  color: #555;
+  margin-top: 5px;
+  font-style: italic;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-left: 9px;
+  color: rgba(53,53,53,.75);
+  flex: 1 1 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.postCategory {
+  background-color: #f1dfd9;
+  color: #333;
+  margin: 2px 2px;
+  padding: 3px 6px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .commentContainer{
@@ -157,7 +205,7 @@ text-overflow: clip;
   height: 100%;
   font-size: 16px;
   line-height: 1.66667;
-  max-width:60%;
+  max-width:100%;
 }
 .commenterContainer{
     height: 35px;
@@ -167,26 +215,33 @@ text-overflow: clip;
     margin-top: 15px;
     border-bottom: 1px solid #ccc;
     background-color: #f5f0ff;
-    padding: 0 10px;
+    padding: 0px 10px;
+
 }
 .commenter{
     font-weight: 400;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-right: 10px;
 }
 
+
 .reply-form-container {
-  margin: 15px 0;
-  padding: 15px;
-  background: #f8f9fa;
-  border-radius: 4px;
-  border-left: 3px solid #dee2e6;
+  background-color: #f1f1f1;
+  border-left: 3px solid #bbb;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  transition: opacity 0.2s ease;
 }
 
 .comment-form .form-group {
   margin-bottom: 10px;
+}
+
+#comments-list {
+  margin-top: 20px;
+  padding: 10px;
 }
 
 .comment-form textarea {
@@ -208,10 +263,22 @@ text-overflow: clip;
 .replies:empty {
   display: none;
 }
-
-.reply-form-container {
-  transition: opacity 0.2s ease;
+.replies {
+  margin-left: 15px; 
+  padding-left: 10px;
+  overflow-x: auto; 
+  max-width: 100%;
 }
+
+@media (max-width: 600px) {
+  .comment,
+  .commentBody,
+  .replies {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
 
 .loading {
   padding: 10px;
@@ -232,8 +299,6 @@ text-overflow: clip;
   white-space: pre-line;
   overflow-x: auto;
   display: block;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
   background-color: white;
 }
 
@@ -243,16 +308,35 @@ a:visited{
   transition: 0.5ms;
 }
 
-.commentFooter{
-    margin-left: 9px;
-    color: rgba(53,53,53,.75);
-    flex: 1 1 auto;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 14px;
+.comment {
+  margin-top: 20px;
+  background-color: aliceblue;
+  box-shadow: -5px 0 5px -5px rgba(0,0,0,0.25);
+  border: none;
+
 }
 
+.commentFooter{
+  font-style: italic;
+  font-size: 13px;
+  color: #777;
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid rgba(128, 128, 128, 0.5);
+}
+.reply-button {
+  font-style: normal;
+  font-size: 13px;
+  color: #007bff;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+.reply-button:hover {
+  text-decoration: underline;
+}
 
 .tableRow{
   border-top: 1px solid #ccc;
@@ -332,14 +416,54 @@ a:visited{
   background: #181b1f;
 }
 
-.headline{
-  font-size: 15px;
-  font-weight: 1000;
-  color: black;
-  opacity: .65;
-  margin: 0 0 5px;
-  display: block;
+.dropdown-toggle::after {
+  display: none;
 }
+
+.btn-light {
+  padding: 0.25rem 0.5rem;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.makePostForm .headline, .editPostForm .headline {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+label, .headline {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #495867;
+}
+
+
+.titleInput, select.form-control {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.8px solid #495867;
+  border-radius: 6px;
+  background-color: #ffffff;
+  font-size: 1rem;
+  color: #222;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.3s ease;
+}
+
+.titleInput:focus, select.form-control:focus {
+  border-color: #007bff;
+  outline: none;
+  background-color: #fff;
+  box-shadow: 0 0 6px rgba(0,123,255,0.3);
+}
+
+.ctr {
+  margin-bottom: 25px;
+}
+
 .standard-box{
   padding: 10px;
   box-shadow: 0 1px 1px 0 rgba(0,0,0,.5);
@@ -361,12 +485,7 @@ a:visited{
 }
 .col{
   flex: 1 1 50%;
-  min-width: 200px;
-  margin: 0 5px;
-  display: block;
-  font-size: 12px;
-  color: black;
-  background: #f8f9fa;
+  min-width: 250px;
 }
 
 .titleInput{

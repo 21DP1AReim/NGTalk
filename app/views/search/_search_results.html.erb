@@ -1,32 +1,26 @@
 <%= stylesheet_link_tag 'postStyle' %>
-<% if @results.any? %> <%# Ja ir rezultāti %>
+<% if results.any? %>
   <h2>Search Results:</h2>
-    <div class="containerPostTable">
-      <table class="tablePosts">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Type</th>
-            <th style="padding-left:5px;">Activity</th>
-          </tr>
-        </thead>
-      <tbody id="table-body">
-      <% @results.sort_by(&:updated_at).reverse.each do |result| %>
-        <tr class="tableRow" style="border: 1px black solid;">
-          <td class="tableTitle">
-            <%= link_to result.title, send("#{result.class.name.downcase}_path", result) %>
-          </td>
-          <td class="tableTitle">
-            <%= result.post_type.humanize %>
-          </td>
-          <td class="tableLastUpdated" style="padding-right:2vw; padding-left:1vw;">
-            <%= time_ago_in_words(result.updated_at) %>
-          </td>
+  <div class="containerPostTable">
+    <table class="tablePosts">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Type</th>
+          <th>Activity</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div> 
+      </thead>
+      <tbody id="table-body">
+        <% results.sort_by(&:updated_at).reverse.each do |result| %>
+          <tr class="tableRow">
+            <td class="tableTitle"><%= link_to result.title, send("#{result.class.name.downcase}_path", result) %></td>
+            <td class="tableTitle"><%= result.post_type.humanize %></td>
+            <td class="tableLastUpdated"><%= time_ago_in_words(result.updated_at) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 <% else %>
   <p>No results found.</p>
 <% end %>

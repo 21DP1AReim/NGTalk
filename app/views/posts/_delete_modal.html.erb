@@ -1,0 +1,23 @@
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p style="font-size:1.4rem">Are you sure you want to archive this post?</p>
+      </div>
+      <%= form_with(url: post_path(@post), method: :delete, local: true) do |f| %>
+        <div class="modal-body">
+          <div class="mb-3">
+            <%= f.label :delete_reason, "Reason for archiving:", class: "form-label" %>
+            <%= f.text_area :delete_reason, class: "form-control", required: true, rows: 3 %>
+            <!--Hidden field to store post type, so could know if article or post was deleted -->
+            <%= f.hidden_field :post_type, value: @post.post_type %>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <%= f.submit "Archive", class: "btn btn-danger" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

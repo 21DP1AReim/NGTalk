@@ -1,0 +1,20 @@
+<% notifications.each do |note| %>
+  <div class="notification-item <%= 'unread' if note.read_at.nil? %>" id="notification-<%= note.id %>">
+    <%= link_to mark_as_read_notification_path(note), 
+                method: :patch, 
+                remote: true, 
+                class: 'notification-link' do %>
+      <div class="notification-content">
+        <p><%= note.message %></p>
+        <div class="notification-footer">
+          <small><%= time_ago_in_words(note.created_at) %></small>
+          <%= link_to '×', notification_path(note), 
+                    method: :delete, 
+                    remote: true,
+                    class: 'delete-notification',
+                    data: { confirm: 'Delete this notification?' } %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

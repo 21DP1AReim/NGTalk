@@ -1,6 +1,7 @@
+<div class="comment-form-container mt-4">
 <% if user_signed_in? %>
   <%= form_with(model: [post, comment], local: local_assigns.fetch(:local, true), id: dom_id(comment, 'form'), class: 'comment-form') do |f| %>
-    <%= f.hidden_field :parent_id %>
+    <%= f.hidden_field :parent_id, value: comment.parent_id %>
     
     <div class="form-group">
       <%= f.text_area :body, class: 'form-control', rows: 3,
@@ -22,28 +23,6 @@
     <% end %>
   <% end %>
 <% else %>
-  <p>Please <%= link_to 'sign in', new_user_session_path %> to leave a comment.</p>
+  <p>Login or register to add your comment to the discussion.</p>
 <% end %>
-
-<script>
-// Make the function globally available
-window.initializeCommentForms = function() {
-  document.querySelectorAll('.comment-form').forEach(form => {
-    const textarea = form.querySelector('textarea');
-    const submitBtn = form.querySelector('input[type="submit"]');
-    const minLength = 1;
-    
-    if (textarea && submitBtn) {
-      const checkValidity = () => {
-        submitBtn.disabled = textarea.value.length < minLength;
-      };
-      
-      textarea.addEventListener('input', checkValidity);
-      checkValidity(); // Initialize immediately
-    }
-  });
-};
-
-// Initialize forms on page load
-document.addEventListener('turbolinks:load', window.initializeCommentForms);
-</script>
+</div>

@@ -20,7 +20,12 @@ class UsersController < ApplicationController
 
 
   def activity
-    @posts = current_user.activity_posts.includes(:author, :comments)
+    @all_activity = current_user.activity_posts.includes(:author, :comments)
+    @my_posts = current_user.posts.includes(:comments)
+    @my_commented_posts = Post.joins(:comments)
+                              .where(comments: { user_id: current_user.id })
+                              .distinct
+                              .includes(:author, :comments)
   end
 
   def update

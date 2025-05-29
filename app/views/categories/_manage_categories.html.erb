@@ -1,0 +1,83 @@
+<div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered category-modal" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="categoryModalLabel">Manage Categories</h5>
+      </div>
+
+      <div class="modal-body">
+        <!-- Tabs navigation -->
+        <ul class="nav nav-tabs" id="categoryTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="add-tab" data-bs-toggle="tab" data-bs-target="#add-category" type="button" role="tab" aria-controls="add-category" aria-selected="true">
+              Add Category
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="activate-tab" data-bs-toggle="tab" data-bs-target="#activate-category" type="button" role="tab" aria-controls="activate-category" aria-selected="false">
+              Activate Category
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="deactivate-tab" data-bs-toggle="tab" data-bs-target="#deactivate-category" type="button" role="tab" aria-controls="deactivate-category" aria-selected="false">
+              Deactivate Category
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="delete-tab" data-bs-toggle="tab" data-bs-target="#delete-category" type="button" role="tab" aria-controls="delete-category" aria-selected="false">
+              Delete Category
+            </button>
+          </li>
+        </ul>
+
+        <!-- Tabs content -->
+        <div class="tab-content pt-3" id="categoryTabContent">
+          <!-- Add Category Tab -->
+          <div class="tab-pane fade show active" id="add-category" role="tabpanel" aria-labelledby="add-tab">
+            <%= form_with model: Category.new, url: categories_path, method: :post, html: { id: 'new-category-form', data: { remote: true } } do |f| %>
+              <div class="input-group mb-3">
+                <%= f.text_field :name, class: "form-control", placeholder: "New category name", required: true %>
+                <button class="btn btn-primary" type="submit">Add</button>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Activate Category Tab -->
+          <div class="tab-pane fade" id="activate-category" role="tabpanel" aria-labelledby="activate-tab">
+            <%= form_with url: toggle_active_categories_path, method: :patch, remote: true, html: { id: 'activate-category-form' } do |f| %>
+              <div class="input-group mb-3">
+                <%= select_tag :id, options_from_collection_for_select(Category.inactive, :id, :name), prompt: "Select category to activate", class: "form-select ", required: true %>
+                <button class="btn btn-success" type="submit">Activate</button>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Deactivate Category Tab -->
+          <div class="tab-pane fade" id="deactivate-category" role="tabpanel" aria-labelledby="deactivate-tab">
+            <%= form_with url: toggle_active_categories_path, method: :patch, remote: true, html: { id: 'deactivate-category-form' } do |f| %>
+              <div class="input-group mb-3">
+                <%= select_tag :id, options_from_collection_for_select(Category.active, :id, :name), prompt: "Select category to deactivate", class: "form-select", required: true %>
+                <button class="btn btn-warning" type="submit">Deactivate</button>
+              </div>
+            <% end %>
+          </div>
+
+            <div class="tab-pane fade" id="delete-category" role="tabpanel" aria-labelledby="delete-tab">
+            <form id="delete-category-form" method="post" data-remote="true">
+                <!-- Rails UJS CSRF token -->
+                <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+                <input type="hidden" name="_method" value="delete">
+                
+                <div class="input-group mb-3">
+                <%= select_tag :category_id, options_from_collection_for_select(Category.all, :id, :name), prompt: "Select category to delete", class: "form-select", id: "delete-category-select", required: true %>
+                <button class="btn btn-danger" type="submit">Delete</button>
+                </div>
+            </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

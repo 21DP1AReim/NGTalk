@@ -40,7 +40,7 @@ class SCOPE::RegistrationsController < Devise::RegistrationsController
   # end
 
   protected
-
+  #Set required parameters for new user signup 
   def configure_sign_up_params
     devise_parameter_sanitizer.permit(:sign_up, keys: [:user_name, :email, :password, :password_confirmation])
   end

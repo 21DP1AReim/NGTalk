@@ -10,7 +10,7 @@
 # db/seeds.rb
 
 # Clear existing data
-PostCategory.delete_all
+Notification.delete_all 
 Comment.delete_all
 Post.delete_all
 Category.delete_all
@@ -88,17 +88,17 @@ post_samples = [
 post_samples.each do |post_data|
   author = User.find_by!(user_name: post_data[:author])
   
-  # First build the post with categories
-  category_ids = Category.where(name: post_data[:categories]).pluck(:id)
-  
-  post = Post.new(
+  # Find the FIRST category in the array (since posts now have one category)
+  category = Category.find_by!(name: post_data[:categories].first)
+
+  post = Post.create!(
     title: post_data[:title],
     content: post_data[:content],
     post_type: post_data[:post_type],
     author_id: author.id,
+    category_id: category.id,
     created_at: rand(1..30).days.ago,
-    updated_at: rand(1..30).days.ago,
-    category_ids: category_ids
+    updated_at: rand(1..30).days.ago
   )
   
   # Save the post with categories

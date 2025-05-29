@@ -21,15 +21,16 @@ gem "importmap-rails"
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
 
-gem 'webpacker', '~> 5.0'
+#gem 'webpacker', '~> 5.0'
 
+#Not a default gem, added for page pagination
 gem 'kaminari'
 
-gem 'turbolinks', '~> 5'
+#gem 'turbolinks', '~> 5'
 
+#Not a default gem, added for a text are with more options
 gem 'tinymce-rails'
 
-gem 'ransack'
 
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
@@ -58,11 +59,9 @@ gem "bootsnap", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem "image_processing", "~> 1.2"
 
-
+#Used for user roles
 gem "cancancan"
-
-gem "nokogiri"
-
+#Used for user auth
 gem "devise"
 
 group :development, :test do

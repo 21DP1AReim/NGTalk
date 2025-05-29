@@ -1,1 +1,6 @@
-$('.container-for-post').html('<%= j render("edit_form", post: @post) %>');
+<% if @post.post_type == 'article' %>
+  $('.container-for-post').html("<%= j render partial: 'edit_article', locals: { post: @post } %>");
+  initializeTinyMCE();
+<% else %>
+  $('.container-for-post').html("<%= j render partial: 'edit_post', locals: { post: @post } %>");
+<% end %>

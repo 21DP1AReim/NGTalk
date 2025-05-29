@@ -181,23 +181,6 @@ body{
   width: 20vw;
 }
 
-.makePostForm{
-  padding-top: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-left: 10px;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  flex-direction: column;
-  color: black;
-  font-size: 2vh;
-  border: solid black 5px;
-  font-weight: bolder;
-  resize: none;
-  
-}
-
 .titleTxt{
   width: 50%;
   height: 55px;
@@ -321,8 +304,7 @@ h1{
   margin: 0;
   writing-mode: horizontal-tb !important;
   padding-block: 1px;
-  padding-inline: 2px
-  border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+  padding-inline: 2px;
   border-image: initial;
 }
 
@@ -336,7 +318,7 @@ h1{
   content: " ";
   display: table;
 }
-.clearFix: after{
+.clearFix:after{
   clear: both;
   content: " ";
   display: table;

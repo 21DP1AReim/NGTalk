@@ -1,16 +1,15 @@
 class SearchController < ApplicationController
   def index
-    @q = params[:q]
+    query = params[:q].to_s.strip
     @results = []
 
-    if @q
-      @results += Post.ransack(title_cont: @q[:title_cont]).result
-      @results = @results.uniq
+    if query.present?
+      @results = Post.active.where("LOWER(title) LIKE ?", "%#{query.downcase}%")
     end
 
     respond_to do |format|
-      format.html { render 'index' } 
-      format.js { render 'index' }
+      format.html # renders search/index.html.erb
+      format.js   # renders search/index.js.erb
     end
   end
 end

@@ -9,11 +9,6 @@ class User < ApplicationRecord
   def editor?
     role == 'editor'
   end
-
-  def writer?
-    role = 'writer'
-  end
-
   def user?
     role = 'user'
   end
@@ -23,9 +18,6 @@ class User < ApplicationRecord
   end
 
 
-
- 
-
   
   validates :user_name, presence: true
   validate :validate_user_name_format
@@ -34,7 +26,7 @@ class User < ApplicationRecord
   has_many :comments, foreign_key: 'user_id'
 
   has_many :commented_posts, through: :comments, source: :post
-
+  has_many :notifications, foreign_key: :user_id, dependent: :destroy
 
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
 
@@ -51,14 +43,14 @@ class User < ApplicationRecord
   def validate_user_name_format
     unless user_name.match?(/\A(?=.*[A-Za-z])\w+\z/) && user_name.length >= 3
       if user_name.length < 3
-            errors.add(:user_name, "must be longer than 3 characters")
-          elsif !user_name.match?(/[A-Za-z]/)
-            errors.add(:user_name, "must contain at least one letter")
-          else
-            errors.add(:user_name, "must contain only letters, numbers, and underscores")
-          end
-        end
+        errors.add(:user_name, "must be longer than 3 characters")
+      elsif !user_name.match?(/[A-Za-z]/)
+        errors.add(:user_name, "must contain at least one letter")
+      else
+        errors.add(:user_name, "must contain only letters, numbers, and underscores")
       end
+    end
+  end
 
   def user_name_cannot_contain_symbol
     if user_name&.include?('@')

@@ -163,8 +163,6 @@ GEM
       nio4r (~> 2.0)
     racc (1.7.1)
     rack (2.2.8)
-    rack-proxy (0.7.7)
-      rack
     rack-test (2.1.0)
       rack (>= 1.3)
     rails (7.0.1)
@@ -196,10 +194,6 @@ GEM
       thor (~> 1.0)
       zeitwerk (~> 2.5)
     rake (13.0.6)
-    ransack (4.1.1)
-      activerecord (>= 6.1.5)
-      activesupport (>= 6.1.5)
-      i18n
     regexp_parser (2.2.0)
     reline (0.3.1)
       io-console (~> 0.5)
@@ -214,7 +208,6 @@ GEM
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2)
-    semantic_range (3.0.0)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -233,9 +226,6 @@ GEM
     turbo-rails (1.0.1)
       actionpack (>= 6.0.0)
       railties (>= 6.0.0)
-    turbolinks (5.2.1)
-      turbolinks-source (~> 5.2)
-    turbolinks-source (5.2.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     tzinfo-data (1.2021.5)
@@ -251,11 +241,6 @@ GEM
       nokogiri (~> 1.6)
       rubyzip (>= 1.3.0)
       selenium-webdriver (~> 4.0)
-    webpacker (5.4.4)
-      activesupport (>= 5.2)
-      rack-proxy (>= 0.6.1)
-      railties (>= 5.2)
-      semantic_range (>= 2.3.0)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -276,21 +261,17 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kaminari
-  nokogiri
   puma (~> 5.0)
   rails (~> 7.0.1)
-  ransack
   selenium-webdriver
   sprockets-rails
   sqlite3 (~> 1.4)
   stimulus-rails
   tinymce-rails
   turbo-rails
-  turbolinks (~> 5)
   tzinfo-data
   web-console
   webdrivers
-  webpacker (~> 5.0)
 
 RUBY VERSION
    ruby 3.0.3p157

@@ -3,22 +3,130 @@
   <head>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= stylesheet_link_tag    'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css' %>
+    <%= stylesheet_link_tag 'sharedStyling' %>
+    <%= javascript_include_tag 'application'%>
+    <%= stylesheet_link_tag 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css' %>
     <%= javascript_include_tag 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js' %>
-
-
+    <%= stylesheet_link_tag 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css' %>
     <%= tinymce_assets %>
     <script type="text/javascript" src="/assets/tinymce.js"></script>
-
     <%= yield(:head) %>
   </head>
 
   <body>
     <%= render "shared/navbar" %>
 
+    <% if user_signed_in? %>
+      <div class="notification-sidebar" id="notificationSidebar">
+        <div class="notification-sidebar-header">
+          <h4>Notifications</h4>
+          <button class="close-sidebar">&times;</button>
+        </div>
+        <div class="notification-sidebar-content">
+          <%= render "notifications/list", notifications: current_user.notifications.recent %>
+        </div>
+      </div>
+    <% end %>
+
     <%= yield %>
 
+    <!-- Move all JavaScript to the bottom of the layout -->
+    <script>
+
+function updateBadgeCount() {
+  const badge = document.querySelector('.notification-badge');
+  if (badge) {
+    const count = document.querySelectorAll('.notification-item.unread').length;
+    count > 0 ? badge.textContent = count : badge.remove();
+  }
+}
+
+// Add this to your existing event listeners
+document.addEventListener('click', function(e) {
+  if (e.target.closest('.delete-notification')) {
+    e.preventDefault();
+    const link = e.target.closest('.delete-notification');
+    if (confirm(link.dataset.confirm)) {
+      fetch(link.href, {
+        method: 'DELETE',
+        headers: {
+          'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content,
+          'Accept': 'application/json',
+        },
+      }).then(response => {
+        if (response.ok) {
+          link.closest('.notification-item').remove();
+          updateBadgeCount();
+        }
+      });
+    }
+  }
+});
+
+
+// Initialize notification sidebar
+function setupNotifications() {
+  // Click handler for notification bell
+  document.addEventListener('click', function(e) {
+    const bell = e.target.closest('#notificationBell');
+    const sidebar = document.getElementById('notificationSidebar');
+    
+    if (bell) {
+      e.preventDefault();
+      const overlay = document.createElement('div');
+      overlay.className = 'sidebar-overlay';
+      document.body.appendChild(overlay);
+      sidebar.style.right = '0';
+      overlay.style.display = 'block';
+    }
+
+    // Close handler
+    if (e.target.closest('.close-sidebar') || e.target.classList.contains('sidebar-overlay')) {
+      document.getElementById('notificationSidebar').style.right = '-400px';
+      document.querySelector('.sidebar-overlay')?.remove();
+    }
+  });
+
+  // Mark as read handler
+  document.addEventListener('click', function(e) {
+    const notificationItem = e.target.closest('.notification-item.unread');
+    if (notificationItem) {
+      e.preventDefault();
+      const link = notificationItem.querySelector('a.notification-link');
+      if (link) {
+        fetch(link.href, {
+          method: 'PATCH',
+          headers: {
+            'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content,
+            'Accept': 'application/json',
+          },
+        }).then(response => {
+          if (response.ok) {
+            notificationItem.classList.remove('unread');
+            updateBadgeCount();
+          }
+        });
+      }
+    }
+  });
+}
+
+//Setup notifications when  page is  loaded in
+document.addEventListener('DOMContentLoaded', setupNotifications);
+
+
+  function initializeTinyMCE() {
+    if (typeof tinymce !== 'undefined') {
+      tinymce.remove(); 
+      tinymce.init({
+        selector: 'textarea.tinymce'
+      });
+    }
+  }
+
+
+
+
+</script>
   </body>
 </html>

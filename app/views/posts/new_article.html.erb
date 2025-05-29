@@ -5,17 +5,12 @@
         <div class="headline">Title</div>
         <%= f.text_area :title, class: "titleInput", maxlength: 50 %>
       
-      <div class="headline">Categories</div>
-      <div class="category-checkboxes">
-        <% Category.all.each do |category| %>
-          <div class="checkbox">
-            <%= check_box_tag "post[category_ids][]", category.id, 
-                @post.categories.include?(category), 
-                id: "category_#{category.id}" %>
-            <%= label_tag "category_#{category.id}", category.name %>
+        <div class="category-input-container">
+          <label for="post_category_id" class="headline">Category</label>
+          <div class="category-checkboxes">
+            <%= f.collection_select :category_id, Category.all, :id, :name, { prompt: "Select a category" }, class: "form-control" %>
           </div>
-        <% end %>
-      </div>
+        </div>
       
       <div>
         <%= f.label :content %> <br>

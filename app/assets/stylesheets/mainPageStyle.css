@@ -1,4 +1,6 @@
-
+body{
+  background-color: aliceblue;
+}
 .container-for-post{
 display:block;
 font-family: Open Sans,sans-serif;
@@ -65,7 +67,8 @@ text-overflow: clip;
 
 
 .main-content{
-  background-color: aliceblue;
+  max-width: 1000px;
+  min-height: 95vh;
 }
 
 .standard-box {
@@ -216,15 +219,6 @@ resize: none;
   box-shadow: none;
 }
 
-
-.recent{
-  height: 280px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  max-width: 260px;
-  min-width: 100px;
-}
 
 .sign-up-btn{
   margin-top: 5%;

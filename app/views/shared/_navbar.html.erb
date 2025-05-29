@@ -7,38 +7,40 @@
     <title>Forum</title>
 
 </head>
+<%= render 'categories/manage_categories' %>
   <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true" id="loginModal">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header row">
           <% resource ||= User.new %>
           <% resource_name = :user %>
-          <%= form_for(resource, as: resource_name, url: session_path(resource_name), remote: true, html: {class: "login-form", id: "loginModalForm"}) do |f| %>
-            <input type="text" name="user[email]" class="loginInput" required="required" placeholder="Email">
-            <input type="password" name="user[password]" class="loginInput" required="required" placeholder="Password">
-            <div class="login-elm clearfix">
-              <span class="remember-me left">
-                <div class="labelled-checkbox">
-                  <%= check_box_tag :remember_me, 1, false, class: "loginCheckbox" %>
-                  <%= label_tag :remember_me, "Remember me" %>
-                </div>
-              </span>
+          <%= form_for(resource, as: resource_name, url: session_path(resource_name), remote: true, html: { class: "login-form", id: "loginModalForm", data: { type: :html } }) do |f| %>
+            <div id="loginModalErrors"></div>
+            <div class="col-12 mt-2 mb-2">
+              <input type="text" name="user[email]" class="loginInput" required="required" placeholder="Email">
             </div>
-            <%= f.submit "Log in", class: "login-button button", name: "login", id: "loginModalSubmit" %>
+            <div class="col-12 mb-2 mt-2">
+              <input type="password" name="user[password]" class="loginInput" required="required" placeholder="Password">
+            </div>
+            <div class="col-12 mt-2 mb-2">
+              <%= f.submit "Log in", class: "login-button button", name: "login", id: "loginModalSubmit" %>
+            </div>
           <% end %>
-          <hr class="login-elm">
-          <a href="<%= new_user_registration_path %>" class="signup-button button">Sign up</a>
-        </div>
+          <hr>
+          <div class="col-12">
+            <a href="<%= new_user_registration_path %>" class="signup-button button">Sign up</a>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
 <body style="height:100 vh">
   <div class="top-container">
     <div class="m-1" >
       <nav id="top-nav" class="navbar navbar-expand-lg navbar-dark bg-dark basePadding">
         <div class="container-fluid">
-          <a class="navbar-brand" href="<%= main_page_path %>"> <%= image_tag "g.png", class: "img-fluid d-inline-block align-top", height:"40", width:"40", alt: "" %> </a>
+          <a class="navbar-brand" href="<%= main_page_path %>"> <%= image_tag "NGTalkLogo.png", class: "img-fluid d-inline-block align-top", height:"100", width:"100", alt: "" %> </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myNav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -60,43 +62,92 @@
                 </li>
               <% end %>
 
-              
             </ul>
             <ul class="nav navbar-nav ms-auto" id="navSearch">
               <%= form_tag(search_path, method: :get, id: 'search-form', class: 'form-inline my-2 my-lg-0') do %>
-                <%= text_field_tag 'saerch[title_cont]', params[:search], class: 'form-control mr-sm-2', id: 'search-input', placeholder: 'Search', aria: { label: 'Search' } %>
+                <%= text_field_tag 'q', params[:q], class: 'form-control mr-sm-2', id: 'search-input', placeholder: 'Search', aria: { label: 'Search' } %>
               <% end %>
             </ul>
             <ul class="nav navbar-nav">
-                <% if user_signed_in? %>
-                  <li class="nav-item my-lg-0 my-2 dropdown">
-                    <a style="color:azure;" class="nav-link navTextStyling dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                      <%= current_user.user_name %>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                      <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
-                    </ul>
-                    <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                      <%= button_to "My Posts", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
-                    </ul>
-                  </li>
-                <% else %>
-                  <li class="nav-item my-lg-0 my-2">
-                    <a style="color:azure;" class="nav-link navTextStyling" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
-                  </li>
-                <% end %>
+              <% if user_signed_in? %>
+                <%# Notification Bell Icon %>
+                <li class="nav-item notification-icon" style="position: relative;">
+                  <%= link_to "javascript:void(0)", class: "nav-link", id: "notificationBell" do %>
+                    <i class="bi bi-bell-fill" style="color: azure; font-size: 1.2rem;"></i>
+                    <% if current_user.notifications.unread.any? %>
+                      <span class="badge bg-danger notification-badge">
+                        <%= current_user.notifications.unread.count %>
+                      </span>
+                    <% end %>
+                  <% end %>
+                </li>
+
+                <%# User Dropdown %>
+                <li class="nav-item my-lg-0 my-2 dropdown">
+                  <a style="color:azure;" class="nav-link navTextStyling dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <%= current_user.user_name %>
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                    <li><%= button_to "Logout", destroy_user_session_path, method: :delete, class: "dropdown-item" %></li>
+
+                    <% if user_signed_in? && current_user.admin? %>
+                    <li>
+                      <%= link_to "Archived", posts_path(archived: true), class: "dropdown-item", style: "color:black" %>
+                    </li>
+                    <li>
+                      <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#categoryModal">Manage Categories</a>
+                    </li>
+              <% end %>
+
+                  </ul>
+                </li>
+              <% else %>
+                <li class="nav-item my-lg-0 my-2">
+                  <a style="color:azure;" class="nav-link navTextStyling" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
+                </li>
+              <% end %>
             </ul>
           </div>
         </div>
       </nav>
     </div>
   </div>    
+</body>
 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const deleteForm = document.getElementById('delete-category-form');
+    const select = document.getElementById('delete-category-select');
+
+    if (!deleteForm || !select) return;
+
+    deleteForm.addEventListener('submit', function (e) {
+      const categoryId = select.value;
+      if (!categoryId) {
+        e.preventDefault();
+        alert('Please select a category to delete.');
+        return;
+      }
+
+      deleteForm.action = `/categories/${categoryId}`;
+    });
+
+    // Reload the page after successful deletion
+    deleteForm.addEventListener('ajax:success', () => {
+      location.reload();
+    });
+
+    deleteForm.addEventListener('ajax:error', () => {
+      alert('Failed to delete the category. Please try again.');
+    });
+  });
+</script>
 
 
 
 <script>
 $(document).on('submit', '#search-form', function(e) {
+  //Make sure user can't spam submit 
   e.preventDefault();
   var searchValue = $('#search-input').val();
   if (searchValue.length >= 2) {
@@ -136,4 +187,38 @@ $("#loginModalForm").on('submit', function(event) {
   Rails.fire(this, 'submit');
   });
 });
+
+
+$(document).on('submit', '#search-form', function(e) {
+  e.preventDefault();
+  var searchValue = $('#search-input').val().trim();
+  if (searchValue.length >= 2) {
+    window.location.href = '/search?q=' + encodeURIComponent(searchValue);
+  } else {
+    $('#search-input').val('');
+  }
+});
+
+
+
+document.addEventListener('turbo:load', () => {
+  // Handle AJAX category creation
+  document.addEventListener('ajax:success', function(event) {
+    const [data, status, xhr] = event.detail;
+    const form = event.target;
+
+    if (form.id === 'new-category-form') {
+      // Refresh the list (or append new item without reloading)
+      location.reload(); // simplest way
+    }
+  });
+
+  document.addEventListener('ajax:error', function(event) {
+    alert("There was an error processing your request.");
+  });
+});
+
+
+
 </script>
+

@@ -1,24 +1,39 @@
 <div class="comment" id="comment-<%= comment.id %>">
   <div class="commentContainer">
-    <div class="commenterContainer">
-      <div class="commenter"><strong><%= comment.user.user_name %></strong></div>
-      <% if user_signed_in? && (current_user == comment.user || current_user.admin?) %>
-        <%= form_with(url: post_comment_path(comment.post, comment), method: :delete, local: true) do |f| %>
-          <%= f.hidden_field :id, value: comment.id %>
-          <%= f.submit "Delete", data: { confirm: "Are you sure?" }, class: "delete-button" %>
-        <% end %>
-      <% end %>
+<div class="commenterContainer d-flex justify-content-between align-items-center align-items-start w-100">
+  <div class="commenter"><strong><%= comment.user.user_name %></strong></div>
+
+  <% if user_signed_in? %>
+    <% can_delete_comment = current_user.admin? || current_user == comment.user %>
+
+    <% if can_delete_comment %>
+      <div class="dropdown">
+        <button class="btn btn-3dots dropdown-toggle" type="button" id="commentActionsDropdown-<%= comment.id %>" data-bs-toggle="dropdown" aria-expanded="false">
+          &#x22EE;
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="commentActionsDropdown-<%= comment.id %>">
+          <li>
+            <%= form_with(url: post_comment_path(comment.post, comment), method: :delete, local: true) do |f| %>
+              <%= f.hidden_field :id, value: comment.id %>
+              <%= f.submit "Delete", data: { confirm: "Are you sure?" }, class: "dropdown-item text-danger" %>
+            <% end %>
+          </li>
+        </ul>
+      </div>
+    <% end %>
+  <% end %>
+
     </div>
     
     <div class="commentBody"><%= comment.body %></div>
     
     <div class="commentFooter">
-      <%= time_ago_in_words(comment.created_at) %> ago
+      <%= time_ago_in_words(comment.created_at) %>
       <% if user_signed_in? %>
-        <%= link_to 'Reply', reply_post_comment_path(comment.post, comment), 
-                    remote: true, 
-                    class: 'reply-button linkStyling', 
-                    data: { comment_id: comment.id } %>
+      <%= link_to 'Reply', reply_post_comment_path(comment.post, comment),
+                  remote: true,
+                  class: 'reply-button linkStyling',
+                  data: { comment_id: comment.id } %>
       <% end %>
     </div>
   </div>
@@ -30,57 +45,6 @@
   </div>
 </div>
 
-<script>
-// Single global form tracker
-window.currentReplyForm = null;
 
-function setupReplyButtons() {
-  document.querySelectorAll('.reply-button').forEach(button => {
-    button.addEventListener('click', function(e) {
-      e.preventDefault();
-      const commentId = this.dataset.commentId;
-      
-      // Remove existing form if any
-      if (window.currentReplyForm) {
-        window.currentReplyForm.remove();
-        window.currentReplyForm = null;
-        
-        // If clicking same button, just exit
-        if (this.dataset.active === 'true') {
-          this.dataset.active = 'false';
-          return;
-        }
-      }
-      
-      // Mark button as active
-      this.dataset.active = 'true';
-      
-      // Create form container
-      const container = document.getElementById(`replies-container-${commentId}`);
-      const formDiv = document.createElement('div');
-      formDiv.className = 'reply-form-container';
-      container.prepend(formDiv);
-      window.currentReplyForm = formDiv;
-      
-      // Load form via AJAX
-      fetch(this.href, {
-        headers: { 
-          'Accept': 'text/javascript',
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
-        }
-      })
-      .then(response => response.text())
-      .then(html => {
-        formDiv.innerHTML = html;
-        if (window.initializeCommentForms) window.initializeCommentForms();
-      })
-      .catch(() => {
-        formDiv.innerHTML = 'Error loading form';
-      });
-    });
-  });
-}
 
-// Initialize on page load
-document.addEventListener('turbolinks:load', setupReplyButtons);
-</script>
+

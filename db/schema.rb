@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_04_01_195644) do
+ActiveRecord::Schema.define(version: 2025_05_27_165033) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "active", default: true, null: false
     t.index ["name"], name: "index_categories_on_name", unique: true
   end
 
@@ -39,14 +40,6 @@ ActiveRecord::Schema.define(version: 2025_04_01_195644) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "post_categories", force: :cascade do |t|
-    t.integer "post_id", null: false
-    t.integer "category_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["post_id", "category_id"], name: "index_post_categories_on_post_id_and_category_id", unique: true
-  end
-
   create_table "posts", force: :cascade do |t|
     t.string "title", null: false
     t.text "content", null: false
@@ -55,6 +48,8 @@ ActiveRecord::Schema.define(version: 2025_04_01_195644) do
     t.datetime "archived_at", precision: 6
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "category_id"
+    t.index ["category_id"], name: "index_posts_on_category_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -81,7 +76,6 @@ ActiveRecord::Schema.define(version: 2025_04_01_195644) do
   add_foreign_key "notifications", "posts"
   add_foreign_key "notifications", "users"
   add_foreign_key "notifications", "users", column: "actor_id"
-  add_foreign_key "post_categories", "categories"
-  add_foreign_key "post_categories", "posts"
+  add_foreign_key "posts", "categories"
   add_foreign_key "posts", "users", column: "author_id"
 end
