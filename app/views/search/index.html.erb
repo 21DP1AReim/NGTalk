@@ -1,8 +1,35 @@
 
-<div id="search-results">
-  <%= render partial: 'search/search_results', locals: { results: @results } %>
+<div class="container ">
+  <div class="row gx-5 ">
+    <div class="col-md-9 col-sm-12 mt-3">
+      <div id="search-results" style="background-color: white;">
+        <%= render partial: 'search/search_results', locals: { results: @results } %>
+      </div>
+  </div>
+  <div class="col-md-3 col-sm-12">
+      <h1 class="recentHeader">Recent Activity</h1>
+      <div class="recent">
+        <% if @recent_posts.any? %>
+          <div class='recentActivityListContainer'>
+            <% @recent_posts.each do |post| %>
+              <% total_count = post.comments.count + post.comments.sum { |c| c.replies.count } %>
+              <a class="recentActivityAnchor" href="<%= post_path(post) %>">
+                <span class="topic"><%= post.title %></span> <%= total_count %>
+              </a>
+            <% end %>
+          </div>  
+        <% else %>
+          <p>No recent activity</p>
+        <% end %>
+        <% if user_signed_in? %>
+          <div class="btnIg">
+            <%= link_to "Make new post", new_post_posts_path, class:"linkStyling" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
-
 <script>
   $('#search-input').val(''); 
 </script>

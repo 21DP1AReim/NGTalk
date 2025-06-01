@@ -10,7 +10,7 @@ class User < ApplicationRecord
     role == 'editor'
   end
   def user?
-    role = 'user'
+    role == 'user'
   end
 
   def self.ransackable_attributes(auth_object = nil)
@@ -31,10 +31,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
 
   def activity_posts
-    Post.where(id: posts.select(:id))
-        .or(Post.where(id: commented_posts.select(:id)))
-        .distinct
-        .order(created_at: :desc)
+    post_ids = posts.pluck(:id) + commented_posts.pluck(:id)
+    Post.active.where(id: post_ids.uniq)
+      .includes(:author, :comments)
+      .order(created_at: :desc)
   end
 
 

@@ -1,67 +1,87 @@
 <%= stylesheet_link_tag 'postStyle' %>
-<div class="containerPostTable">
-
-<%= form_with url: posts_path, method: :get, local: true, class: "mb-3" do %>
-  <div class="row g-2 align-items-center">
-    <div class="col-auto">
-      <label for="category" class="col-form-label">Filter by Category:</label>
-    </div>
-    <div class="col-auto">
-      <%= select_tag :category,
-          options_for_select(
-            ((current_user && current_user.admin?) ? Category.all : Category.active).pluck(:name).prepend("All"),
-            selected: params[:category]
-          ),
-          include_blank: false,
-          class: "form-select",
-          onchange: 'this.form.submit();' %>
-    </div>
-    <%= hidden_field_tag :post_type, params[:post_type] if params[:post_type].present? %>
-  </div>
-<% end %>
-  <table class="tablePosts">
-    <thead>
-      <tr>
-        <th class="tableHeader">Title</th>
-        <th class="tableHeader">Category</th>
-        <th class="tableHeader">Replies
-          <%= link_to '▼', posts_path(sort_by: 'replies_desc', post_type: params[:post_type], category: params[:category]) %>
-          <%= link_to '▲', posts_path(sort_by: 'replies_asc', post_type: params[:post_type], category: params[:category]) %>
-        </th>
-        <th class="tableHeader">Activity
-          <%= link_to '▼', posts_path(sort_by: 'activity_asc', post_type: params[:post_type], category: params[:category]) %>
-          <%= link_to '▲', posts_path(sort_by: 'activity_desc', post_type: params[:post_type], category: params[:category]) %>
-        </th>
-      </tr>
-    </thead>
-    <tbody id="table-body">
-      <% @posts.each do |post| %>
-        <tr class="tableRow">
-          <td class="tableTitle">
-            <%= link_to post.title, post_path(post) %>
-          </td>
-          <td class="tableTitle" style="min-width: 150px;">
-            <%= post.category&.name || "No category" %>
-          </td>
-          <td class="tableReplies" style="min-width: 125px;">
-            <% reply_count = post.comments.sum { |c| c.replies.count } %>
-            <%= link_to post.comments.count + reply_count, post_path(post) %>
-          </td>
-          <td class="tableLastUpdated" style="min-width: 125px;">
-            <%= time_ago_in_words(post.updated_at) %>
-          </td>
-        </tr>
+<div class="post-table-container container mt-4">
+  <div class="row gx-5"> 
+    <div class="containerPostTable col-sm-12 col-md-9">
+      <%= form_with url: posts_path, method: :get, local: true, class: "mb-3" do %>
+        <div class="row g-2 align-items-center">
+          <div class="col-auto">
+            <label for="category" class="col-form-label">Filter by Category:</label>
+          </div>
+          <div class="col-auto">
+            <%= select_tag :category,
+                options_for_select(
+                  ((current_user && current_user.admin?) ? Category.all : Category.active).pluck(:name).prepend("All"),
+                  selected: params[:category]
+                ),
+                include_blank: false,
+                class: "form-select",
+                onchange: 'this.form.submit();' %>
+          </div>
+          <%= hidden_field_tag :post_type, params[:post_type] if params[:post_type].present? %>
+        </div>
       <% end %>
-    </tbody>
-  </table>
-  <%= paginate @posts %>
-  <% if user_signed_in? %>
-    <% if params[:post_type] == 'article' %>
-      <% if current_user.admin? %>
-        <%= link_to "New Article", new_article_posts_path %>
+        <table class="tablePosts">
+          <thead>
+            <tr>
+              <th class="tableHeader">Title</th>
+              <th class="tableHeader">Category</th>
+              <th class="tableHeader">Replies
+                <%= link_to '▼', posts_path(sort_by: 'replies_desc', post_type: params[:post_type], category: params[:category]) %>
+                <%= link_to '▲', posts_path(sort_by: 'replies_asc', post_type: params[:post_type], category: params[:category]) %>
+              </th>
+              <th class="tableHeader">Activity
+                <%= link_to '▼', posts_path(sort_by: 'activity_asc', post_type: params[:post_type], category: params[:category]) %>
+                <%= link_to '▲', posts_path(sort_by: 'activity_desc', post_type: params[:post_type], category: params[:category]) %>
+              </th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <% @posts.each do |post| %>
+              <tr class="tableRow">
+                <td class="tableTitle">
+                  <%= link_to post.title, post_path(post) %>
+                </td>
+                <td class="tableTitle" style="min-width: 150px;">
+                  <%= post.category&.name || "No category" %>
+                </td>
+                <td class="tableReplies" style="min-width: 125px;">
+                  <% reply_count = post.comments.sum { |c| c.replies.count } %>
+                  <%= link_to post.comments.count + reply_count, post_path(post) %>
+                </td>
+                <td class="tableLastUpdated" style="min-width: 125px;">
+                  <%= time_ago_in_words(post.updated_at) %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <%= paginate @posts %>
+        <% if user_signed_in? %>
+          <% if params[:post_type] == 'article' %>
+            <% if current_user.admin? %>
+              <%= link_to "New Article", new_article_posts_path %>
+              <% end %>
+          <% else %>
+            <%= link_to "Make new post", new_post_posts_path %>
+          <% end %>
         <% end %>
-    <% else %>
-      <%= link_to "New Post", make_post_page_path %>
-    <% end %>
-  <% end %>
+    </div>
+    <div class="col-sm-12 col-md-3">
+          <div id="recentActivity" > </div>
+            <h1 class="recentHeader">Recent Activity</h1>
+              <div class="recent">
+                <% @recent_posts.each do |post| %>
+                  <% total_count = post.comments.count + post.comments.map { |c| c.replies.count }.sum %>
+                  <a class="recentActivityAnchor" href="<%= post_path(post) %>">
+                    <span class="topic"><%= post.title %></span> <%= total_count %>
+                  </a>
+                <% end %>
+                <% if user_signed_in? %>
+                  <div class="btnIg">
+                    <%= link_to "Create post", new_post_posts_path, class:"linkStyling" %>
+                  </div>
+                <% end %>  
+            </div>
+          </div>
+  </div>
 </div>

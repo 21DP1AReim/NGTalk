@@ -7,19 +7,19 @@ class Post < ApplicationRecord
   #set required params for post 
   #Set requirement for title, it is required, with minimum length of 
   validates :title, presence: true, length: {
-  minimum: 2,
-  maximum: 120,
-  too_short: " must not be shorter than %{count} characters ",
-  too_long: " must not be longer than %{count} characters"
+    minimum: 2,
+    maximum: 120,
+    too_short: " must not be shorter than %{count} characters ",
+    too_long: " must not be longer than %{count} characters"
 }
   validates :category, presence: true
 
   #Set requirement for content of post, it is required, with minimum length of 
   validates :content, presence: true, length: {
-  minimum: 2,
-  maximum: 2500,
-  too_short: " must not be shorter than %{count} characters",
-  too_long: " must not be longer than 2500 characters"
+    minimum: 2,
+    maximum: 2500,
+    too_short: " must not be shorter than %{count} characters",
+    too_long: " must not be longer than 2500 characters"
 }
 
   has_many :notifications, foreign_key: :post_id, dependent: :destroy

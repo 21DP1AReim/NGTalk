@@ -20,6 +20,7 @@ class UsersController < ApplicationController
 
 
   def activity
+    @recent_posts = Post.active.recent_posts.limit(10)
     @all_activity = current_user.activity_posts.includes(:author, :comments)
     @my_posts = current_user.posts.includes(:comments)
     @my_commented_posts = Post.joins(:comments)

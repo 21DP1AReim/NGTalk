@@ -28,12 +28,17 @@
     <div class="commentBody"><%= comment.body %></div>
     
     <div class="commentFooter">
-      <%= time_ago_in_words(comment.created_at) %>
+      <div class="ms-2">
+        <%= time_ago_in_words(comment.created_at) %>
+      </div>
       <% if user_signed_in? %>
-      <%= link_to 'Reply', reply_post_comment_path(comment.post, comment),
-                  remote: true,
-                  class: 'reply-button linkStyling',
-                  data: { comment_id: comment.id } %>
+        <div>      
+          <%= link_to 'Reply', reply_post_comment_path(comment.post, comment),
+                      remote: true,
+                      class: 'reply-button linkStyling',
+                      style: "color:black",
+                      data: { comment_id: comment.id } %>
+        </div>
       <% end %>
     </div>
   </div>

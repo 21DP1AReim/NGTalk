@@ -14,6 +14,7 @@ class Ability
       #If user is logged in, so any user
       if user.persisted?
         can :create, Comment
+
         case user.role
         when 'writer'
           can :create, Post # Writers can create both articles and posts
@@ -23,6 +24,7 @@ class Ability
           end
         when 'user'
           can :create, Post, post_type: 'post' # Users can only create regular posts
+          can :new, Post # allow access to the form
           #Users can edit their own post, if it is within a 15 minute creation timeframe 
           can :edit, Post do |post|
             post.author_id == user.id && post.created_at > 15.minutes.ago

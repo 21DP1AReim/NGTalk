@@ -1,7 +1,18 @@
 <div class="editPostForm">
   <div class="headline">Change post information</div>
+
+      <% if post.errors.any? %>
+      <div class="alert alert-danger">
+        <ul>
+          <% post.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
     <div class="form-container">
-      <%= form_with(model: @post, local: true, html: { class: "createPostForm" }) do |f| %>
+      <%= form_with(model: @post, remote: true, html: { class: "createPostForm" }) do |f| %>
         <div class="subject-input-container">
           <label for="post_title" class="headline">Subject</label>
           <%= f.text_area :title, class: "titleInput", maxlength: 30 %>

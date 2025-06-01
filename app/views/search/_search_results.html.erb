@@ -1,23 +1,41 @@
 <%= stylesheet_link_tag 'postStyle' %>
 <% if results.any? %>
-  <h2>Search Results:</h2>
+<h1>Search Results:</h2>
   <div class="containerPostTable">
     <table class="tablePosts">
       <thead>
         <tr>
-          <th>Title</th>
-          <th>Type</th>
-          <th>Activity</th>
+          <th class="tableHeader">Title</th>
+          <th class="tableHeader">Type</th>
+          <th class="tableHeader">Category</th>
+          <th class="tableHeader">Replies
+            <%= link_to '▼', posts_path(sort_by: 'replies_desc', post_type: params[:post_type], category: params[:category]) %>
+            <%= link_to '▲', posts_path(sort_by: 'replies_asc', post_type: params[:post_type], category: params[:category]) %>
+          </th>
+          <th class="tableHeader">Activity
+            <%= link_to '▼', posts_path(sort_by: 'activity_asc', post_type: params[:post_type], category: params[:category]) %>
+            <%= link_to '▲', posts_path(sort_by: 'activity_desc', post_type: params[:post_type], category: params[:category]) %>
+          </th>
         </tr>
       </thead>
       <tbody id="table-body">
+
         <% results.sort_by(&:updated_at).reverse.each do |result| %>
           <tr class="tableRow">
             <td class="tableTitle"><%= link_to result.title, send("#{result.class.name.downcase}_path", result) %></td>
-            <td class="tableTitle"><%= result.post_type.humanize %></td>
-            <td class="tableLastUpdated"><%= time_ago_in_words(result.updated_at) %></td>
+            <td class="tableTitle" style="min-width: 100px;"><%= result.post_type.humanize %></td>
+            <td class="tableTitle" style="min-width: 150px;">
+              <%= result.category&.name || "No category" %>
+            </td>
+            <td class="tableReplies" style="min-width: 150px;">
+              <% reply_count = result.comments.sum { |c| c.replies.count } %>
+              <%= link_to result.comments.count + reply_count, post_path(result) %>
+            </td>
+            <td class="tableLastUpdated "style="min-width: 150px;"><%= time_ago_in_words(result.updated_at) %></td>
           </tr>
         <% end %>
+
+
       </tbody>
     </table>
   </div>

@@ -1,7 +1,7 @@
 (() => {
   let formHtml = `<%= j render("comments/form", post: @parent_comment.post, comment: @comment, local: false) %>`;
 
-  // Remove existing reply forms
+  //Remove any reply creation forms
   document.querySelectorAll('.reply-form-container').forEach(el => el.remove());
 
   const container = document.querySelector('#replies-container-<%= @parent_comment.id %>');
