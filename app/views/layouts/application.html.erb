@@ -30,91 +30,85 @@
 
     <%= yield %>
 
-    <!-- Move all JavaScript to the bottom of the layout -->
-    <script>
-
-function updateBadgeCount() {
-  const badge = document.querySelector('.notification-badge');
-  if (badge) {
-    const count = document.querySelectorAll('.notification-item.unread').length;
-    count > 0 ? badge.textContent = count : badge.remove();
-  }
-}
-
-// Add this to your existing event listeners
-document.addEventListener('click', function(e) {
-  if (e.target.closest('.delete-notification')) {
-    e.preventDefault();
-    const link = e.target.closest('.delete-notification');
-    if (confirm(link.dataset.confirm)) {
-      fetch(link.href, {
-        method: 'DELETE',
-        headers: {
-          'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content,
-          'Accept': 'application/json',
-        },
-      }).then(response => {
-        if (response.ok) {
-          link.closest('.notification-item').remove();
-          updateBadgeCount();
-        }
-      });
+<script>
+  //Function to update the count of notifications shown on bar
+  function updateBadgeCount() {
+    const badge = document.querySelector('.notification-badge');
+    if (badge) {
+      const count = document.querySelectorAll('.notification-item.unread').length;
+      count > 0 ? badge.textContent = count : badge.remove();
     }
   }
-});
-
-
-// Initialize notification sidebar
-function setupNotifications() {
-  // Click handler for notification bell
+  //Handle when user clicks to delete a notification
   document.addEventListener('click', function(e) {
-    const bell = e.target.closest('#notificationBell');
-    const sidebar = document.getElementById('notificationSidebar');
-    
-    if (bell) {
+    if (e.target.closest('.delete-notification')) {
       e.preventDefault();
-      const overlay = document.createElement('div');
-      overlay.className = 'sidebar-overlay';
-      document.body.appendChild(overlay);
-      sidebar.style.right = '0';
-      overlay.style.display = 'block';
-    }
-
-    // Close handler
-    if (e.target.closest('.close-sidebar') || e.target.classList.contains('sidebar-overlay')) {
-      document.getElementById('notificationSidebar').style.right = '-400px';
-      document.querySelector('.sidebar-overlay')?.remove();
-    }
-  });
-
-  // Mark as read handler
-  document.addEventListener('click', function(e) {
-    const notificationItem = e.target.closest('.notification-item.unread');
-    if (notificationItem) {
-      e.preventDefault();
-      const link = notificationItem.querySelector('a.notification-link');
-      if (link) {
+      const link = e.target.closest('.delete-notification');
+      if (confirm(link.dataset.confirm)) {
         fetch(link.href, {
-          method: 'PATCH',
+          method: 'DELETE',
           headers: {
+            //Have to put crsf token in headers, so that rails knows this is a legit request
             'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content,
             'Accept': 'application/json',
           },
         }).then(response => {
           if (response.ok) {
-            notificationItem.classList.remove('unread');
+            link.closest('.notification-item').remove();
             updateBadgeCount();
           }
         });
       }
     }
   });
-}
-
-//Setup notifications when  page is  loaded in
-document.addEventListener('DOMContentLoaded', setupNotifications);
 
 
+  //Init notif sidebar
+  function setupNotifications() {
+    //Add a listener to notif bell 
+    document.addEventListener('click', function(e) {
+      const bell = e.target.closest('#notificationBell');
+      const sidebar = document.getElementById('notificationSidebar');
+      
+      if (bell) {
+        e.preventDefault();
+        const overlay = document.createElement('div');
+        overlay.className = 'sidebar-overlay';
+        document.body.appendChild(overlay);
+        sidebar.style.right = '0';
+        overlay.style.display = 'block';
+      }
+
+      if (e.target.closest('.close-sidebar') || e.target.classList.contains('sidebar-overlay')) {
+        document.getElementById('notificationSidebar').style.right = '-400px';
+        document.querySelector('.sidebar-overlay')?.remove();
+      }
+    });
+    document.addEventListener('click', function(e) {
+      const notificationItem = e.target.closest('.notification-item.unread');
+      if (notificationItem) {
+        e.preventDefault();
+        const link = notificationItem.querySelector('a.notification-link');
+        if (link) {
+          fetch(link.href, {
+            method: 'PATCH',
+            headers: {
+              //Again, must put crsf token in request so that rails knows this is a legit request
+              'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content,
+              'Accept': 'application/json',
+            },
+          }).then(response => {
+            if (response.ok) {
+              notificationItem.classList.remove('unread');
+              updateBadgeCount();
+            }
+          });
+        }
+      }
+    });
+  }
+  //Init notifs when page loaded
+  document.addEventListener('DOMContentLoaded', setupNotifications);
   function initializeTinyMCE() {
     if (typeof tinymce !== 'undefined') {
       tinymce.remove(); 

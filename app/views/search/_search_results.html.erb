@@ -9,12 +9,8 @@
           <th class="tableHeader">Type</th>
           <th class="tableHeader">Category</th>
           <th class="tableHeader">Replies
-            <%= link_to '▼', posts_path(sort_by: 'replies_desc', post_type: params[:post_type], category: params[:category]) %>
-            <%= link_to '▲', posts_path(sort_by: 'replies_asc', post_type: params[:post_type], category: params[:category]) %>
           </th>
           <th class="tableHeader">Activity
-            <%= link_to '▼', posts_path(sort_by: 'activity_asc', post_type: params[:post_type], category: params[:category]) %>
-            <%= link_to '▲', posts_path(sort_by: 'activity_desc', post_type: params[:post_type], category: params[:category]) %>
           </th>
         </tr>
       </thead>
@@ -28,8 +24,7 @@
               <%= result.category&.name || "No category" %>
             </td>
             <td class="tableReplies" style="min-width: 150px;">
-              <% reply_count = result.comments.sum { |c| c.replies.count } %>
-              <%= link_to result.comments.count + reply_count, post_path(result) %>
+              <%=result.comments.count %>
             </td>
             <td class="tableLastUpdated "style="min-width: 150px;"><%= time_ago_in_words(result.updated_at) %></td>
           </tr>

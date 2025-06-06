@@ -1,17 +1,20 @@
 (() => {
+  
+  //Loads a form for reply creation 
   let formHtml = `<%= j render("comments/form", post: @parent_comment.post, comment: @comment, local: false) %>`;
 
-  //Remove any reply creation forms
+  //Remove any reply creation forms, to make sure there is only 1 per view
   document.querySelectorAll('.reply-form-container').forEach(el => el.remove());
 
   const container = document.querySelector('#replies-container-<%= @parent_comment.id %>');
+  //If found a replies container with the specified comment id 
   if (container) {
     const formContainer = document.createElement('div');
     formContainer.className = 'reply-form-container';
     formContainer.innerHTML = formHtml;
     container.prepend(formContainer);
   }
-
+  //Check if initcomments function exists before trying to call it, it should exists but just in case
   if (window.initCommentForms) {
     window.initCommentForms();
   }

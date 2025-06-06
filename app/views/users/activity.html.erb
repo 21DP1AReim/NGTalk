@@ -2,55 +2,59 @@
 <div class="container">
   <div class="row gx-5">
     <div class="col-md-9 col-sm-12 mt-5">
-      <!-- Tabs -->
+      <%#Create boostrap tabs%>
       <ul class="nav nav-tabs" id="activityTabs" role="tablist" style="background-color: white; border-radius:5px">
         <li class="nav-item">
+          <%#Tab for all activity%>
           <a class="nav-link activity-title active" id="all-tab" data-bs-toggle="tab" href="#all" role="tab">All Activity</a>
         </li>
         <li class="nav-item">
+          <%#Tab link for posts only created by user%>
           <a class="nav-link activity-title" id="posts-tab" data-bs-toggle="tab" href="#posts" role="tab">My Posts</a>
         </li>
         <li class="nav-item">
+          <%#Tab link for posts user has commented on%>
           <a class="nav-link activity-title" id="comments-tab" data-bs-toggle="tab" href="#comments" role="tab">Posts I have commented on</a>
         </li>
       </ul>
-
-
       <div class="tab-content mt-3" id="activityTabsContent">
-        <!-- All Activity Tab -->
+        <%#Tab with all user activity tabs%>
         <div class="tab-pane fade show active" id="all" role="tabpanel">
+          <%#Render the _post_activity.html.erb partial with the all activity variable and user data%>
           <%= render partial: "post_activity", locals: { posts: @all_activity, current_user: current_user } %>
         </div>
-
-
-        <!-- Tab for posts that user has created -->
+        <%#Tab for posts only created by user%>
         <div class="tab-pane fade" id="posts" role="tabpanel">
+          <%#Render the _post_activity.html.erb partial with the my post variable and user data%>
           <%= render partial: "post_activity", locals: { posts: @my_posts, current_user: current_user } %>
         </div>
-
-
-        <!-- Tab for posts that user has commented on -->
+        <%#Tab for posts only commented on by user%>
         <div class="tab-pane fade" id="comments" role="tabpanel">
+          <%#Render the _post_activity.html.erb partial with the my commented posts variable and user data%>
           <%= render partial: "post_activity", locals: { posts: @my_commented_posts, current_user: current_user } %>
         </div>
       </div>
     </div>
+    <%#Recent activity component, lets user see most recently updated posts%>
     <div class="col-md-3 col-sm-12">
       <div id="recentActivity" > </div>
       <h1 class="recentHeader">Recent Activity</h1>
       <div class="recent">
+        <%#If there are any posts, else show text that no recent activity%>
         <% if @recent_posts.any? %>
           <div class='recentActivityListContainer'>
+            <%#Loop through every recen post found%>
             <% @recent_posts.each do |post| %>
-              <% total_count = post.comments.count + post.comments.sum { |c| c.replies.count } %>
+              <%#Create a link to post and show its title with comment count on post page%>
               <a class="recentActivityAnchor" href="<%= post_path(post) %>">
-                <span class="topic"><%= post.title %></span> <%= total_count %>
+                <span class="topic"><%= post.title %></span> <%= post.comments.count %>
               </a>
             <% end %>
           </div>  
         <% else %>
           <p>No recent activity</p>
         <% end %>
+        <%#If user logged in show a button to make posts with post type post%>
         <% if user_signed_in? %>
           <div class="btnIg">
             <%= link_to "Make new post", new_post_posts_path, class:"linkStyling" %>

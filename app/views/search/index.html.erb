@@ -12,9 +12,8 @@
         <% if @recent_posts.any? %>
           <div class='recentActivityListContainer'>
             <% @recent_posts.each do |post| %>
-              <% total_count = post.comments.count + post.comments.sum { |c| c.replies.count } %>
               <a class="recentActivityAnchor" href="<%= post_path(post) %>">
-                <span class="topic"><%= post.title %></span> <%= total_count %>
+                <span class="topic"><%= post.title %></span> <%= post.comments.count %>
               </a>
             <% end %>
           </div>  

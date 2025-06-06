@@ -32,7 +32,7 @@ end
 
 
 # Create categories
-categories = ['Technology', 'Science', 'Arts', 'Politics', 'Sports', 'Health']
+categories = ['Blizzard', 'Off-topic', 'Valve', 'Gaming events', 'Gaming news', 'Politics']
 categories.each do |category_name|
   Category.create!(name: category_name)
 end
@@ -42,30 +42,30 @@ end
 post_samples = [
   {
     title: 'Getting Started with Ruby on Rails',
-    content: 'Ruby on Rails is a popular web application framework...',
+    content: 'Ruby on Rails is a popular web application framework',
     post_type: 'article',
-    categories: ['Technology'],
+    categories: ['Politics'],
     author: 'editor1'
   },
   {
-    title: 'The Future of Artificial Intelligence',
-    content: 'AI is transforming industries across the globe...',
+    title: 'The Future of Artificial Intelligence in gaming',
+    content: 'AI is transforming industries across the globe, and that includes gaming',
     post_type: 'article',
-    categories: ['Technology', 'Science'],
+    categories: ['Gaming news'],
     author: 'writer1'
   },
   {
-    title: 'Local Sports Team Wins Championship',
-    content: 'In an exciting match last night, our local team...',
+    title: 'Local  e-Sports Team Wins Championship',
+    content: 'In an exciting match last night, Latvias local team won the world championship',
     post_type: 'post',
-    categories: ['Sports'],
+    categories: ['Gaming events'],
     author: 'user1'
   },
   {
-    title: 'New Health Study Reveals Benefits of Exercise',
+    title: 'New Health Study Reveals Benefits of Gaming',
     content: 'A recent study published in the Journal of Health...',
     post_type: 'article',
-    categories: ['Health'],
+    categories: ['Gaming news'],
     author: 'editor1'
   },
   {
@@ -76,19 +76,17 @@ post_samples = [
     author: 'admin'
   },
   {
-    title: 'Upcoming Art Exhibition in Downtown',
+    title: 'Upcoming gaming Exhibition in Downtown',
     content: 'The city art museum will host a special exhibition...',
     post_type: 'post',
-    categories: ['Arts'],
+    categories: ['Politics'],
     author: 'user2'
   }
 ]
 
-# Create posts
 post_samples.each do |post_data|
   author = User.find_by!(user_name: post_data[:author])
   
-  # Find the FIRST category in the array (since posts now have one category)
   category = Category.find_by!(name: post_data[:categories].first)
 
   post = Post.create!(
@@ -101,7 +99,6 @@ post_samples.each do |post_data|
     updated_at: rand(1..30).days.ago
   )
   
-  # Save the post with categories
   post.save!
   
 

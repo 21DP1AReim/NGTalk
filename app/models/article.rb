@@ -1,5 +1,5 @@
 class Article < ApplicationRecord
-
+  #Old model, will delete after adding files to github, previously I used 2 separate tables for articles and posts
   has_many :comments, as: :commentable
   has_many :replies, through: :comments
   before_destroy :delete_associated_comments

@@ -73,9 +73,8 @@
           <% if @recent_posts.any? %>
             <div class='recentActivityListContainer'>
               <% @recent_posts.each do |post| %>
-                <% total_count = post.comments.count + post.comments.sum { |c| c.replies.count } %>
                 <a class="recentActivityAnchor" href="<%= post_path(post) %>">
-                  <span class="topic"><%= post.title %></span> <%= total_count %>
+                  <span class="topic"><%= post.title %></span> <%= post.comments.count %>
                 </a>
               <% end %>
             </div>  
@@ -94,32 +93,4 @@
 </div>
 
            
-              
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  $('#edit-post-link').on('click', function(e) {
-    e.preventDefault();
-    var postId = $(this).data('post-id');
-    $.ajax({
-      url: '/posts/' + postId + '/edit',
-      type: 'GET',
-      success: function(response) {
-        console.log(response); 
-        $('.container-for-post').html(response);
-      },
-      error: function(xhr) {
-        console.log(xhr.responseText);
-      }
-    });
-  });
-});
-</script>
-<script>
-// Make the function globally available
-document.addEventListener('ajax:success', function(event) {
-  if (event.target.classList.contains('reply-button')) {
-    if (window.initializeCommentForms) window.initializeCommentForms();
-  }
-});
-
-</script>
+            

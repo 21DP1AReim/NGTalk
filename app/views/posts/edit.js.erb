@@ -1,6 +1,6 @@
 <% if @post.post_type == 'article' %>
   $('.container-for-post').html("<%= j render partial: 'edit_article', locals: { post: @post } %>");
-  initializeTinyMCE();
+  initializeTinyMCE(); //Articles have a different text area
 <% else %>
   $('.container-for-post').html("<%= j render partial: 'edit_post', locals: { post: @post } %>");
 <% end %>

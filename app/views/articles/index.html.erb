@@ -24,8 +24,7 @@
           <%= link_to article.title, article_path(article) %>
         </td>
         <td class="tableReplies" style="padding-right:10vw; padding-left:1vw;">
-          <% total_count = article.comments.count + article.comments.map { |c| c.replies.count }.sum %>
-          <%= link_to  "#{total_count}", article_path(article) %>
+          <%= link_to  "#{article.comments.count}", article_path(article) %>
         </td>
         <td class="tableLastUpdated" style="padding-right:2vw; padding-left:1vw;">
           <%= time_ago_in_words(article.updated_at) %>
@@ -50,24 +49,3 @@
 <%= link_to "New Article", new_article_posts_path %>
 
 </div>
-<script>
-
-$(document).on('click', '.sort-arrow', function(e) {
-  e.preventDefault();
-
-  var sort_by = $(this).attr('sort_by');
-
-  $.ajax({
-    url: '/articles',
-    type: 'GET',
-    data: { sort_by: sort_by },
-    success: function(data) {
-      $('.table-body').html($(data).find('.table-body').html());
-    },
-    error: function() {
-      alert('Error sorting articles');
-    }
-  });
-});
-
-</script>

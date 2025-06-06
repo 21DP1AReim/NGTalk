@@ -3,7 +3,7 @@ class Ability
   include CanCan::Ability
   #Function to initialize user roles
   def initialize(user)
-    #If user is new
+    #If user is a guest
     user ||= User.new
     #If user is admin can do everything
     if user.admin?
@@ -14,7 +14,6 @@ class Ability
       #If user is logged in, so any user
       if user.persisted?
         can :create, Comment
-
         case user.role
         when 'writer'
           can :create, Post # Writers can create both articles and posts

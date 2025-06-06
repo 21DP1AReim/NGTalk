@@ -4,7 +4,7 @@
   <div class="commenter"><strong><%= comment.user.user_name %></strong></div>
 
   <% if user_signed_in? %>
-    <% can_delete_comment = current_user.admin? || current_user == comment.user %>
+    <% can_delete_comment = current_user.admin? %>
 
     <% if can_delete_comment %>
       <div class="dropdown">

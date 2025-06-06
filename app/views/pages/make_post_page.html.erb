@@ -18,7 +18,7 @@
       <%= form_with(model: @post, url: create_post_posts_path, local: true, html: { class: "createPostForm" }) do |f| %>
         <div class="subject-input-container">
           <label for="post_title" class="headline">Subject</label>
-          <%= f.text_area :title, class: "titleInput", maxlength: 30 %>
+          <%= f.text_area :title, class: "titleInput", maxlength: 250 %>
         </div>
         <hr>
         <div class="category-input-container">

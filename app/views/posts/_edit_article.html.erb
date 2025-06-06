@@ -1,6 +1,6 @@
 <%= form_with(model: @post, local: true) do |f| %>
   <div class="headline">Title</div>
-  <%= f.text_area :title, class: "titleInput", maxlength: 50 %>
+  <%= f.text_area :title, class: "titleInput", maxlength: 250 %>
 
   <div class="category-input-container">
     <label for="post_category_id" class="headline">Category</label>

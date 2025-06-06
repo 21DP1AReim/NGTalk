@@ -2,52 +2,66 @@
 <div class="post-table-container container mt-4">
   <div class="row gx-5"> 
     <div class="containerPostTable col-sm-12 col-md-9">
+      <%#Form to filter posts by category sends a get request to only get posts with specifed category, request type is html%>
       <%= form_with url: posts_path, method: :get, local: true, class: "mb-3" do %>
         <div class="row g-2 align-items-center">
+          <%#Use boostrap rows and columns for elastic styling%>
           <div class="col-auto">
             <label for="category" class="col-form-label">Filter by Category:</label>
           </div>
           <div class="col-auto">
+            <%#Select element which has category names as options%>
             <%= select_tag :category,
+                #Depending on user role show either all or only active categories as options
                 options_for_select(
                   ((current_user && current_user.admin?) ? Category.all : Category.active).pluck(:name).prepend("All"),
                   selected: params[:category]
                 ),
                 include_blank: false,
                 class: "form-select",
+                #Submit form when user selects a category to reload showed posts based on category
                 onchange: 'this.form.submit();' %>
           </div>
-          <%= hidden_field_tag :post_type, params[:post_type] if params[:post_type].present? %>
+          <%#Submit form with post type so could know which type of posts to filter%>
+          <%= hidden_field_tag :post_type, params[:post_type] %>
         </div>
       <% end %>
+      <%#Table to show posts and some post data before going to post view%>
         <table class="tablePosts">
           <thead>
             <tr>
               <th class="tableHeader">Title</th>
               <th class="tableHeader">Category</th>
               <th class="tableHeader">Replies
+                <%#Links to postcontroller index method to sort post data by chosen option, orders by comment count%>
                 <%= link_to '▼', posts_path(sort_by: 'replies_desc', post_type: params[:post_type], category: params[:category]) %>
                 <%= link_to '▲', posts_path(sort_by: 'replies_asc', post_type: params[:post_type], category: params[:category]) %>
               </th>
               <th class="tableHeader">Activity
+                <%#Links to postcontroller index method to sort post data by chosen option, orders by activity%>
                 <%= link_to '▼', posts_path(sort_by: 'activity_asc', post_type: params[:post_type], category: params[:category]) %>
                 <%= link_to '▲', posts_path(sort_by: 'activity_desc', post_type: params[:post_type], category: params[:category]) %>
               </th>
             </tr>
           </thead>
+          <%#Table body to show post information and link to post view%>
           <tbody id="table-body">
+            <%#Loop through every post%>
             <% @posts.each do |post| %>
               <tr class="tableRow">
                 <td class="tableTitle">
+                  <%#Create a link to post view and show post title%>
                   <%= link_to post.title, post_path(post) %>
                 </td>
                 <td class="tableTitle" style="min-width: 150px;">
-                  <%= post.category&.name || "No category" %>
+                  <%#Show post category%>
+                  <%= post.category.name %>
                 </td>
+                <%#Show post comment count, also includes nested comments%>
                 <td class="tableReplies" style="min-width: 125px;">
-                  <% reply_count = post.comments.sum { |c| c.replies.count } %>
-                  <%= link_to post.comments.count + reply_count, post_path(post) %>
+                  <%= link_to post.comments.count, post_path(post) %>
                 </td>
+                <%#Shows how long ago was most recent activity, uses post helper%>
                 <td class="tableLastUpdated" style="min-width: 125px;">
                   <%= time_ago_in_words(post.updated_at) %>
                 </td>
@@ -55,27 +69,35 @@
             <% end %>
           </tbody>
         </table>
+        <%#Uses kaminari gem to split posts into different pages if needed (in index method currently defined that a single page may contain 18 posts)%>
         <%= paginate @posts %>
+        <%#If user is logged in%>
         <% if user_signed_in? %>
+          <%#If user currently on article index page%>
           <% if params[:post_type] == 'article' %>
-            <% if current_user.admin? %>
+            <%#Check if user is an admin or editor, if so then show them a link to create a new article %>
+            <% if current_user.admin? || current_user.editor? %>
               <%= link_to "New Article", new_article_posts_path %>
               <% end %>
           <% else %>
+            <%#Otherwise show link to create a post, user role doesn't matter, however it is important that user is logged in%>
             <%= link_to "Make new post", new_post_posts_path %>
           <% end %>
         <% end %>
     </div>
+    <%#Section to show most revent activity in the system%>
     <div class="col-sm-12 col-md-3">
           <div id="recentActivity" > </div>
             <h1 class="recentHeader">Recent Activity</h1>
               <div class="recent">
+                <%#Loops through the posts with the most recent activity%>
                 <% @recent_posts.each do |post| %>
-                  <% total_count = post.comments.count + post.comments.map { |c| c.replies.count }.sum %>
+                  <%#Creates a link to the post view and shows post title with comment count%>
                   <a class="recentActivityAnchor" href="<%= post_path(post) %>">
-                    <span class="topic"><%= post.title %></span> <%= total_count %>
+                    <span class="topic"><%= post.title %></span> <%= post.comments.count %>
                   </a>
                 <% end %>
+                <%#If user is loggedin then show a button to create a new post%>
                 <% if user_signed_in? %>
                   <div class="btnIg">
                     <%= link_to "Create post", new_post_posts_path, class:"linkStyling" %>

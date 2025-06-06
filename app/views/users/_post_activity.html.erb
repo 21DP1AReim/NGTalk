@@ -8,9 +8,11 @@
         <h5 class="card-title">
           <%= link_to post.title, post, class: "activity-title"%>
         </h5>
+        <%#Strip any tags since there can be a article preview which saves html and limit preview to 100 chars%>
         <p class="card-text"><%= truncate(strip_tags(post.content), length: 100) %></p>
         <div class="d-flex justify-content-between">
           <small class="text-muted">
+            <%#Show time ago when post was created%>
             Created <%= time_ago_in_words(post.created_at) %>
           </small>
         </div>

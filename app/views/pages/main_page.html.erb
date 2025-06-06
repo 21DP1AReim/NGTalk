@@ -3,35 +3,41 @@
   <div class="row gx-5">
       <div class="col-sm-8">
         <div id="mainPageNews" class="content-padding">
+          <%#Section to show newest articles%>
           <span style="font-size:24px;font-weight:bold">Recent articles</h2>
           <div class="mt-2" id='recentNews'>
             <%#Loop through every recent article and show it on the page%>
             <% @recent_articles.each do |article| %>
+              <%#Create a linkt to article page%>
               <a class="newsAnchor" href="<%= post_path(article) %>">
                 <div class="inlineText">
                   <%= article.title %>
                 </div>
                 <div class="endArticle">
                   <div><%= time_ago_in_words(article.created_at) %> ago</div>
-                  <%#Calculate total amount of comments per article%>
-                  <div><%= article.comments.count + article.comments.map { |c| c.replies.count }.sum  %> comments</div>
+                  <%#Get the total amount  of comments on post page%>
+                  <div><%= article.comments.count %> comments</div>
                 </div>
               </a>
             <% end %>
         </div>
+          <%#Link to page with all articles list%>
           <a class="more-news-btn" href="<%= posts_path(post_type: 'article') %>"> More news</a>
           </div>
         </div>
         <div class="col-sm-4">
           <div id="recentActivity" > </div>
+            <%#Section to show posts with most recent activity%>
             <h1 class="recentHeader">Recent Activity</h1>
               <div class="recent">
+                <%#Loop through each post stored in recent posts%>
                 <% @recent_posts.each do |post| %>
-                  <% total_count = post.comments.count + post.comments.map { |c| c.replies.count }.sum %>
+                  <%#Create a link to the post view with text of article title and comment count on post%>
                   <a class="recentActivityAnchor" href="<%= post_path(post) %>">
-                    <span class="topic"><%= post.title %></span> <%= total_count %>
+                    <span class="topic"><%= post.title %></span> <%= post.comments.count %>
                   </a>
                 <% end %>
+                <%#If user is logged in show a button that redirect user to page for post creation%>
                 <% if user_signed_in? %>
                   <div class="btnIg">
                     <%= link_to "Create post", new_post_posts_path, class:"linkStyling" %>

@@ -119,99 +119,58 @@ class PostsController < ApplicationController
     end
     end
   end
-
+  #Function used in posts/index to show list of posts, handles actions on page
   def index
-    @posts = Post.all
-    @posts = @posts.where(post_type: params[:post_type]) if params[:post_type].present?
+    #To start get all posts
+    @posts = Post.all 
+    #Filter down posts to only the type which was in parameters
+    @posts = @posts.where(post_type: params[:post_type])
+    #Get the 10 most recently updated posts to show on recent activity sidebar
     @recent_posts = Post.active.recent_posts.limit(10)
-
     #Only alow to view archived page if user has admin role
-    if params[:archived] && !current_user&.admin?
-      redirect_to root_path, alert: "You cannot access this!"
+    if params[:archived].present? && !current_user&.admin? #If current user does not exist check returns false
+      redirect_to root_path, alert: "Sorry you can't do this thing"
       return
     end
     #If archived is sent to controller then return only archived posts, otherwise only active posts
     @posts = params[:archived] ? @posts.archived : @posts.active
-
+    #If user has changed category to filter by
     if params[:category].present? && params[:category] != 'All'
+      #Select posts which only have specified category
       @posts = @posts.joins(:category).where(categories: { name: params[:category] })
     end
-  
+    #Block for sorting posts, if user has selected to sort by something
     if params[:sort_by].present?
-      case params[:sort_by]
-      when 'title_asc'
+      case params[:sort_by] #Switch between sorting options
+      when 'title_asc' #When user has selected to sort by title in asc order
         @posts = @posts.order(title: :asc)
-      when 'title_desc'
+      when 'title_desc'#When user has selected to sort by title in desc order
         @posts = @posts.order(title: :desc)
-      when 'replies_asc'
-        @posts = @posts.left_joins(comments: :replies)
-                       .select('posts.*, 
-                               COUNT(DISTINCT comments.id) + 
-                               COUNT(DISTINCT replies_comments.id) AS total_comments')
-                       .group('posts.id')
-                       .order('total_comments ASC')
-      when 'replies_desc'
-        @posts = @posts.left_joins(comments: :replies)
-                       .select('posts.*, 
-                               COUNT(DISTINCT comments.id) + 
-                               COUNT(DISTINCT replies_comments.id) AS total_comments')
-                       .group('posts.id')
-                       .order('total_comments DESC')
-      when 'activity_asc'
+      when 'replies_asc' #When user has selected to sort by comments in asc order
+        @posts = @posts
+                  .left_joins(:comments) #Join comments to posts
+                  .select('posts.*, COUNT(comments.id) AS total_comments') #Select the count of rows
+                  .group('posts.id') #Group by post
+                  .order('total_comments ASC') #Sort in asc order by  count
+      when 'replies_desc' #When user has selected to sort by comments in desc order
+        @posts = @posts
+                  .left_joins(:comments) #Join comments to posts
+                  .select('posts.*, COUNT(comments.id) AS total_comments') #Select the count of rows
+                  .group('posts.id')#Group by post
+                  .order('total_comments DESC')#Sort in desc order by count
+      when 'activity_asc' #When user has selected to sort by activity in asc order
         @posts = @posts.order(updated_at: :asc)
-      when 'activity_desc'
+      when 'activity_desc' #When user has selected to sort by activity in desc order
         @posts = @posts.order(updated_at: :desc)
       end
-    else
-      @posts = @posts.order(updated_at: :desc)
+    else #By default sort by activity in desc order
+        @posts = @posts.order(updated_at: :desc)
     end
-  
+    #Limit the amount of posts on index page to 18
     @posts = @posts.page(params[:page]).per(18)
   end
-
-  def notindex
-    @posts = Post.order(updated_at: :desc)
-
-    @posts = if params[:category].present?
-               if params[:category] == 'All'
-                 Post.all.order(updated_at: :desc)
-               else
-                 Post.where(category: params[:category])
-               end
-             else
-               Post.all.order(updated_at: :desc)
-             end
-
-    if params[:sort_by].present?
-      case params[:sort_by]
-      when 'title_asc'
-        @posts = Post.order(title: :asc)
-      when 'title_desc'
-        @posts = Post.order(title: :desc)
-      when 'replies_asc'
-        @posts = Post.left_joins(:comments, :replies).select('posts.*, COUNT(DISTINCT comments.id) + COUNT(DISTINCT replies.id) AS total_count').group('posts.id').order('total_count ASC')
-      when 'replies_desc'
-        @posts = Post.left_joins(:comments, :replies).select('posts.*, COUNT(DISTINCT comments.id) + COUNT(DISTINCT replies.id) AS total_count').group('posts.id').order('total_count DESC')
-      when 'activity_asc'
-        @posts = Post.order(updated_at: :asc)
-      when 'activity_desc'
-        @posts = Post.order(updated_at: :desc)
-      else
-        Post.all
-      end
-    end
-
-    @posts = @posts.where(post_type: params[:post_type]) if params[:post_type].present?
-    @posts = @posts.page(params[:page]).per(18)
-
-    respond_to do |format|
-      format.html
-      format.js { render partial: 'sorted_posts', locals: { posts: @posts } }
-    end
-  end
-
   private
-
+  #Define required parameters for posts
   def post_params
     params.require(:post).permit(:title, :content, :post_type, :category_id)
   end

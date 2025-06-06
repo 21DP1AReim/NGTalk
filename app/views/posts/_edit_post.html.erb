@@ -15,7 +15,7 @@
       <%= form_with(model: @post, remote: true, html: { class: "createPostForm" }) do |f| %>
         <div class="subject-input-container">
           <label for="post_title" class="headline">Subject</label>
-          <%= f.text_area :title, class: "titleInput", maxlength: 30 %>
+          <%= f.text_area :title, class: "titleInput", maxlength: 250 %>
         </div>
         <hr>
         <div class="category-input-container">
@@ -27,7 +27,7 @@
         <hr>
         <div class="content-input-container">
           <label for="post_content" class="headline">Content</label>
-          <%= f.text_area :content, class: "titleInput", maxlength: 150 %>
+          <%= f.text_area :content, class: "titleInput", maxlength: 2500 %>
         </div>
 
         <%= link_to 'Cancel', post_path(@post), class: "btn btn-secondary" %>

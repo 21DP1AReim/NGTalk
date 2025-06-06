@@ -8,7 +8,7 @@
             <div class="postTitleContainer">
               <div class="postTitle"><%= @author.user_name %> - <%= @article.title %></div>
               <% if user_signed_in? %>
-                <% if current_user.role == 'admin'|| current_user.role == 'editor'%>
+                <% if current_user.role == 'admin'|| current_user.role == 'writer'%>
                 <%= link_to 'Edit', edit_article_path(@article), remote: true, id: 'edit-article-link', class: 'btn btn-edit' %>
                   <%= form_with(url: article_path(@article), method: :delete, local: true) do |f| %>
                   <%= f.hidden_field :id, value: @article.id %>

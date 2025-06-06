@@ -1,13 +1,11 @@
 //= require jquery
 //= require rails-ujs
 //= require_tree .
-
 //When document is loaded call setupReplyButtons function and initializeCommentForms function, to bind all listeners
 $(document).ready(function() {
   setupReplyButtons();
   initCommentForms();
 });
-
 // Reload comments after submitting a comment or reply
 $(document).on('ajax:success', '.comment-form', function () {
   //Resets comment form
@@ -19,7 +17,6 @@ $(document).on('ajax:success', '.comment-form', function () {
     initCommentForms();
   });
 });
-
 // Enable/disable submit button based on textarea content
 function initCommentForms() {
   //For every comment-form class
@@ -41,13 +38,11 @@ function initCommentForms() {
     });
   });
 }
-
 // Attach AJAX reply behavior to reply buttons
 function setupReplyButtons() {
   //Remove click listener for handleReplyClick, so that a single button doesn't have repeat listeners and 
   // add a listener for click to call handleReplyClick
   $('.reply-button').off('click', handleReplyClick).on('click', handleReplyClick);
-
 }
 //Gets called when user clicks on reply button, event is click
 function handleReplyClick(e) {
